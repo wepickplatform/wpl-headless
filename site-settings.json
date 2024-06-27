@@ -4,7 +4,7 @@
   "mailpoet_api_key": "your_mailpoet_api_key",
   "mailpoet_list_id": "3",
   "subcription_widget": {
-    "enable": true,
+    "enable": false,
     "title": "Stay up to date",
     "description": "Get notified when I publish something new, and unsubscribe at any time.",
     "placeholder": "Enter your email address",
