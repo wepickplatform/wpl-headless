@@ -88,7 +88,7 @@ export default {
     "Apply": "적용",
     "Cancel": "취소",
     "Upload": "이미지 업로드",
-    "Insert from URL": "이미지 URL",
+    
     "Upload image": "이미지 업로드",
     "Unset link": "링크 취소",
     "Image URL": "이미지 URL",
