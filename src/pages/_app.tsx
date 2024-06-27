@@ -7,7 +7,7 @@ import "@/styles/index.scss";
 import { AppProps } from "next/app";
 import { WordPressBlocksProvider, fromThemeJson } from "@faustwp/blocks";
 import blocks from "@/wp-blocks";
-import { Roboto, Noto_Sans_KR } from "next/font/google";
+import { Noto_Sans_KR } from "next/font/google";
 import SiteWrapperProvider from "@/container/SiteWrapperProvider";
 import { Toaster } from "react-hot-toast";
 import NextNProgress from "nextjs-progressbar";
@@ -18,13 +18,6 @@ const notoSansKr = Noto_Sans_KR({
   subsets: ["latin"], // 또는 preload: false
   weight: ["100", "400", "700", "900"], // 가변 폰트가 아닌 경우, 사용할 fontWeight 배열
 });
-
-const roboto = Roboto({
-  subsets: ["latin"], // preload에 사용할 subsets입니다.
-  weight: ["100", "400", "700"],
-  variable: "--roboto", // CSS 변수 방식으로 스타일을 지정할 경우에 사용합니다.
-});
-
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -40,7 +33,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         <SiteWrapperProvider {...pageProps}>
           <style jsx global>{`
             html {
-              font-family: ${poppins.style.fontFamily};
+              font-family: ${notoSansKr.style.fontFamily};
             }
           `}</style>
           <NextNProgress color="#818cf8" />
