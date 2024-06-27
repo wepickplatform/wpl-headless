@@ -7,17 +7,24 @@ import "@/styles/index.scss";
 import { AppProps } from "next/app";
 import { WordPressBlocksProvider, fromThemeJson } from "@faustwp/blocks";
 import blocks from "@/wp-blocks";
-import { Poppins } from "next/font/google";
+import { Roboto, Noto_Sans_KR } from "next/font/google";
 import SiteWrapperProvider from "@/container/SiteWrapperProvider";
 import { Toaster } from "react-hot-toast";
 import NextNProgress from "nextjs-progressbar";
 import themeJson from "../../theme.json";
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["300", "400", "500", "600", "700"],
+const notoSansKr = Noto_Sans_KR({
+  // preload: true, 기본값
+  subsets: ["latin"], // 또는 preload: false
+  weight: ["100", "400", "700", "900"], // 가변 폰트가 아닌 경우, 사용할 fontWeight 배열
 });
+
+const roboto = Roboto({
+  subsets: ["latin"], // preload에 사용할 subsets입니다.
+  weight: ["100", "400", "700"],
+  variable: "--roboto", // CSS 변수 방식으로 스타일을 지정할 경우에 사용합니다.
+});
+
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
