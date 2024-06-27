@@ -70,7 +70,7 @@ export default {
 
     "Drafts": "임시",
     "Draft post": "비공개",
-    "Delete post": "삭제",
+
     "Pendings": "검수",
     "Published": "공개",
     "Publish": "공개",
