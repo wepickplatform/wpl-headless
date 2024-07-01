@@ -38,7 +38,7 @@ const SectionHero3: FC<SectionHero3Props> = ({ posts, className = "" }) => {
             </span>
             <div className="mt-5 sm:mt-8">
               <ButtonSecondary href={uri}>
-                <span> Read more</span>
+                <span>자세히 보기</span>
                 <ArrowRightIcon className="ms-3 w-5 h-5 rtl:rotate-180" />
               </ButtonSecondary>
             </div>
