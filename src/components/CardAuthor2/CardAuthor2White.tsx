@@ -46,7 +46,7 @@ const CardAuthor2White: FC<CardAuthor2WhiteProps> = ({
                 ·
               </span>
               <span className="opacity-0 group-hover:opacity-100 transition-opacity">
-                {readingTime} min read
+                {readingTime} 분
               </span>
             </>
           )}
