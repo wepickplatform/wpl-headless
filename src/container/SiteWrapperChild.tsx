@@ -101,11 +101,14 @@ export function SiteWrapperChild({
     return null;
   }
 
-  return (
-    <div>
+  /* 아래 return
+      <div>
       <CookiestBoxPopover />
       <ControlSettingsDemo />
       <MusicPlayer />
     </div>
+  */
+  return (
+
   );
 }
