@@ -23,7 +23,7 @@ const PostCardSaveAction: FC<PostCardSaveActionProps> = ({
       {!hidenReadingTime && !!readingTime && (
         <>
           <span className="hidden sm:block text-right">
-            <span className="line-clamp-1">{readingTime} min read</span>
+            <span className="line-clamp-1">{readingTime} 분</span>
           </span>
           <span className="block sm:hidden line-clamp-1 text-right">
             <span className="line-clamp-1">{readingTime}' read</span>
