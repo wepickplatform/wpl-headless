@@ -55,28 +55,22 @@
   "site_socials": [
     {
       "name": "instagram",
-      "url": "https://www.facebook.com/yourfacebookpage",
-      "icon": "/images/socials/facebook.svg",
-      "description": "Follow us on Facebook"
+      "url": "https://www.instagram.com/wpl_wepickletter",
+      "icon": "/images/socials/instagram.svg",
+      "description": "팔로우하기"
     },
     {
-      "name": "twitter",
-      "url": "https://twitter.com/yourtwitterpage",
-      "icon": "/images/socials/x-twitter.svg",
-      "description": "Follow us on Twitter"
+      "name": "youtube",
+      "url": "https://www.youtube.com/@WPL_radio",
+      "icon": "/images/socials/youtube.svg",
+      "description": "구독하기"
     },
 
     {
-      "name": "github",
-      "url": "https://www.github.com/yourmediumpage",
-      "icon": "/images/socials/github.svg",
-      "description": "Follow us on Github"
-    },
-    {
-      "name": "tiktok",
-      "url": "https://www.tiktok.com/yourtiktokpage",
-      "icon": "/images/socials/tiktok.svg",
-      "description": "Follow us on Tiktok"
+      "name": "linkedin-in.svg",
+      "url": "https://www.linkedin.com/company/wepick",
+      "icon": "/images/socials/linkedin-in.svg",
+      "description": "팔로우하기"
     }
   ],
 
