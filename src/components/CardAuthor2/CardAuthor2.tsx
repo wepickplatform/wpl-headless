@@ -65,7 +65,7 @@ const CardAuthor2: FC<CardAuthor2Props> = ({
                   hoverReadingTime ? "opacity-0 group-hover:opacity-100" : ""
                 }`}
               >
-                {readingTime} min read
+                {readingTime} 분
               </span>
             </>
           )}
