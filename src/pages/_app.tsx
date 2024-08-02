@@ -35,11 +35,11 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           }}
         >
           <SiteWrapperProvider {...pageProps}>
-            <style jsx global>{`
-              html {
-                font-family: ${poppins.style.fontFamily};
-              }
-            `}</style>
+          <style jsx global>{`
+            html {
+              font-family: ${notoSansKr.style.fontFamily};
+            }
+          `}</style>
             <NextNProgress color="#818cf8" />
             <Component {...pageProps} key={router.asPath} />
             <Toaster
