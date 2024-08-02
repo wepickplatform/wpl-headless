@@ -246,6 +246,7 @@
 	},
   
   "document_page": {
+	"enable": true,
     "uri": "/documents",
     "title": "Documents",
     "sub_title": "Read and share new perspectives on just about any topic. Everyone’s welcome."
