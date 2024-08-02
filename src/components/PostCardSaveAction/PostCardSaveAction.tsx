@@ -16,7 +16,7 @@ const PostCardSaveAction: FC<PostCardSaveActionProps> = ({
 	readingTime = 3,
 	postDatabseId,
 }) => {
-<<<<<<< HEAD
+
   return (
     <div
       className={`nc-PostCardSaveAction flex items-center gap-x-2 text-xs text-neutral-700 dark:text-neutral-300 ${className}`}
@@ -31,7 +31,7 @@ const PostCardSaveAction: FC<PostCardSaveActionProps> = ({
           </span>
         </>
       )}
-=======
+
 	return (
 		<div
 			className={`nc-PostCardSaveAction flex items-center gap-x-2 text-xs text-neutral-700 dark:text-neutral-300 ${className}`}
@@ -46,7 +46,7 @@ const PostCardSaveAction: FC<PostCardSaveActionProps> = ({
 					</span>
 				</>
 			)}
->>>>>>> 0f186b6 (Save changes before rebase)
+
 
 			<NcBookmark
 				postDatabseId={postDatabseId}
