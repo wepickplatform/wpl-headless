@@ -1,5 +1,4 @@
 export default {
-<<<<<<< HEAD
   Edit: "편집",
   Home: "홈",
   "Reset password": "비밀번호 초기화",
@@ -131,7 +130,6 @@ export default {
     Recommended: "추천",
   },
 };
-=======
 	Reply: 'Reply',
 	'Delete comment': 'Delete comment',
 	'Are you sure you want to delete this comment? You cannot undo this action.':
@@ -382,4 +380,3 @@ export default {
 		Recommended: 'Recommended',
 	},
 }
->>>>>>> 0f186b6 (Save changes before rebase)
