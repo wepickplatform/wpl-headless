@@ -73,7 +73,11 @@
       "description": "팔로우하기"
     }
   ],
-
+  "site_header": {
+		"desktop_header": {
+			"header_style": "style3"
+		}
+	},
   "site_footer": {
     "all_rights_reserved_text": "© 2023 ChisNghiax Company, Inc. All rights reserved."
   },
@@ -82,6 +86,28 @@
     "show_view_cout": false,
     "show_comment_count": true
   },
+  "search_page": {
+		"recommended_searches": {
+			"enable": true,
+			"title": "Recommended searches",
+			"items": [
+				{
+					"title": "Programming",
+					"url": "/search/posts/programming"
+				},
+				{
+					"title": "Design",
+					"url": "/search/posts/design"
+				},
+				{
+					"title": "Technology",
+					"url": "/search/posts/technology"
+				}
+			]
+		},
+		"show_top_categories": true,
+		"show_newsletter_section": true
+	},
   "post_card": {
     "show_view_cout": false,
     "show_comment_count": true
@@ -133,6 +159,42 @@
     "title": "Helps",
     "sub_title": "Read and share new perspectives on just about any topic. Everyone’s welcome."
   },
+  	"contact_page": {
+		"enable": true,
+		"title": "Get in touch",
+		"sub_title": "We’d love to hear from you. Fill out the form below to get in touch with us.",
+		"form": {
+			"success_message": "🎉 Thank you for your message. We will get back to you soon.",
+			"error_message": "Something went wrong. Please try again. If the problem persists, you can contact me."
+		},
+		"my_contact_info": [
+			{
+				"name": "address",
+				"title": "🚀 ADDRESS",
+				"desc": "123 Main Street, New York, NY 10001"
+			},
+			{
+				"name": "email",
+				"title": "💌 EMAIL",
+				"desc": "example@example.com"
+			},
+			{
+				"name": "phone",
+				"title": "☎️ PHONE",
+				"desc": "+88 123 456 789"
+			},
+			{
+				"name": "working_hours",
+				"title": "🕒 WORKING HOURS",
+				"desc": "Mon - Fri: 9:00 - 19:00"
+			},
+			{
+				"name": "socials",
+				"title": "👋 SOCIALS"
+			}
+		]
+	},
+  
   "document_page": {
     "uri": "/documents",
     "title": "Documents",
@@ -141,7 +203,10 @@
   "cookies_policy_page": {
     "uri": "#"
   },
-
+	"privacy_policy_page": {
+		"uri": "/privacy-policy",
+		"title": "Privacy Policy"
+	},
   "empty_state": {
     "title": "No results found.",
     "description": "We couldn’t find any results. Try for something else."
