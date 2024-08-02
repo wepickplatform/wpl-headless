@@ -58,40 +58,6 @@ const PostMeta2: FC<PostMeta2Props> = ({
 						{author?.name || 'R'}
 					</Link>
 
-<<<<<<< HEAD
-          {!hiddenCategories && (
-            <>
-              <span className="mx-2 font-semibold">·</span>
-              <div className="ms-0">
-                <span className="text-xs">🏷 </span>
-                {categories?.nodes?.map((cat, index, arr) => (
-                  <Link
-                    key={cat.databaseId}
-                    href={cat.uri || ""}
-                    className="font-semibold"
-                  >
-                    {cat.name}
-                    {index < arr.length - 1 && <span>, </span>}
-                  </Link>
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-        <div className="text-xs mt-[6px]">
-          <span className="text-neutral-700 dark:text-neutral-300">
-            {ncFormatDate(date || "")}
-          </span>
-          <span className="mx-2 font-semibold">·</span>
-          <span className="text-neutral-700 dark:text-neutral-300">
-            {ncPostMetaData?.readingTime} 분
-          </span>
-        </div>
-      </div>
-    </div>
-  );
-};
-=======
 					{!hiddenCategories && (
 						<>
 							<span className="mx-2 font-semibold">·</span>
@@ -124,6 +90,4 @@ const PostMeta2: FC<PostMeta2Props> = ({
 		</div>
 	)
 }
->>>>>>> 0f186b6 (Save changes before rebase)
-
 export default PostMeta2
