@@ -63,6 +63,9 @@ export const NC_MUTATION_CREATE_POST = gql(/* GraphQL */ `
     $img_7_alt: String = null
     $img_8_alt: String = null
     $featuredImg_alt: String = null
+    #
+    $showRightSidebar: String = null
+    $postStyle: String = null
   ) {
     createPost(
       input: {
@@ -97,6 +100,9 @@ export const NC_MUTATION_CREATE_POST = gql(/* GraphQL */ `
         ncmazGalleryImg7Alt: $img_7_alt
         ncmazGalleryImg8Alt: $img_8_alt
         ncmazFeaturedImgAlt: $featuredImg_alt
+        #
+        showRightSidebar: $showRightSidebar
+        postStyle: $postStyle
       }
     ) {
       clientMutationId
@@ -151,6 +157,9 @@ export const NC_MUTATION_UPDATE_POST = gql(/* GraphQL */ `
     $img_7_alt: String = null
     $img_8_alt: String = null
     $featuredImg_alt: String = null
+    #
+    $showRightSidebar: String = null
+    $postStyle: String = null
   ) {
     updatePost(
       input: {
@@ -186,6 +195,9 @@ export const NC_MUTATION_UPDATE_POST = gql(/* GraphQL */ `
         ncmazGalleryImg7Alt: $img_7_alt
         ncmazGalleryImg8Alt: $img_8_alt
         ncmazFeaturedImgAlt: $featuredImg_alt
+        #
+        showRightSidebar: $showRightSidebar
+        postStyle: $postStyle
       }
     ) {
       post {
@@ -209,6 +221,18 @@ export const MUTATION_ADD_SUBCRIBER_TO_MAILPOET =
   ) {
     user_first_name
     user_email
+    success
+    errors
+  }
+} `);
+
+export const MUTATION_ADD_CONTACT_MESS_TO_WP =
+  gql(` mutation MyMutationAddContactFormMess($user_full_name: String = "", $user_email: String = "", $message: String = "") {
+  ncmazFaustAddSentMessContactForm(
+    input: {user_email: $user_email, user_full_name: $user_full_name, message: $message}
+  ) {
+    user_email
+    user_full_name
     success
     errors
   }

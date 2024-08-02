@@ -7,10 +7,20 @@ interface Props extends SingleType1Props {}
 
 const SingleType2: FC<Props> = ({ post }) => {
   //
-  const { title, content, date, author, databaseId, excerpt, featuredImage } =
-    getPostDataFromPostFragment(post || {});
+  const {
+    title,
+    content,
+    date,
+    author,
+    databaseId,
+    excerpt,
+    featuredImage,
+    ncPostMetaData,
+  } = getPostDataFromPostFragment(post || {});
   //
 
+  const imgWidth = featuredImage?.mediaDetails?.width || 1000;
+  const imgHeight = featuredImage?.mediaDetails?.height || 750;
   return (
     <div className={`pt-8 lg:pt-16`}>
       {/* SINGLE HEADER */}
@@ -28,10 +38,14 @@ const SingleType2: FC<Props> = ({ post }) => {
         <NcImage
           alt={title}
           containerClassName="container my-10 sm:my-12"
-          className="w-full rounded-xl"
+          className={`rounded-xl mx-auto ${
+            imgWidth <= 768 && ncPostMetaData?.showRightSidebar
+              ? "w-full max-w-screen-md"
+              : ""
+          }`}
           src={featuredImage?.sourceUrl || ""}
-          width={featuredImage?.mediaDetails?.width || 1000}
-          height={featuredImage?.mediaDetails?.height || 750}
+          width={imgWidth}
+          height={imgHeight}
           sizes={"(max-width: 1024px) 100vw, 1280px"}
           enableDefaultPlaceholder
           priority

@@ -1,320 +1,408 @@
-"use client";
-
-import { FC, Fragment, ReactNode, useState } from "react";
-import { Combobox, Dialog, Transition } from "@headlessui/react";
 import {
-  ExclamationTriangleIcon,
-  HashtagIcon,
-  LifebuoyIcon,
-  ClockIcon,
-  MagnifyingGlassIcon,
-} from "@heroicons/react/24/outline";
-import Link from "next/link";
-import MyImage from "../MyImage";
-import { useRouter } from "next/router";
+	Combobox,
+	ComboboxInput,
+	ComboboxOption,
+	ComboboxOptions,
+	Dialog,
+	DialogPanel,
+	Transition,
+	TransitionChild,
+} from '@headlessui/react'
+import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
+import { ArrowUpRightIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { FC, ReactNode, useEffect, useState } from 'react'
+import {
+	CategoriesIcon,
+	FilterVerticalIcon,
+	PostSearchIcon,
+	SearchIcon,
+	UserSearchIcon,
+} from '../Icons/Icons'
+import clsx from 'clsx'
+import getTrans from '@/utils/getTrans'
+import { NC_SITE_SETTINGS } from '@/contains/site-settings'
+import Empty from '../Empty'
+import { gql } from '@/__generated__'
+import { getApolloClient } from '@faustwp/core'
+import _, { set } from 'lodash'
+import { TPostCard } from '../Card2/Card2'
+import Loading from '../Button/Loading'
+import { getPostDataFromPostFragment } from '@/utils/getPostDataFromPostFragment'
+import ncFormatDate from '@/utils/formatDate'
+import MyImage from '../MyImage'
+import PostTypeFeaturedIcon from '../PostTypeFeaturedIcon/PostTypeFeaturedIcon'
+import { useRouter } from 'next/router'
 
-const categories: any[] = [];
-const posts: any[] = [];
-const authors: any[] = [];
+const T = getTrans()
 
-function classNames(...classes: any) {
-  return classes.filter(Boolean).join(" ");
+interface PersonType {
+	name: string
+	uri: string
+	type: string
+	icon: typeof PostSearchIcon
 }
+
+const quickActions: PersonType[] = [
+	{
+		type: 'quick-action',
+		name: T['Search posts'],
+		icon: PostSearchIcon,
+		uri: '/search/posts/',
+	},
+	{
+		type: 'quick-action',
+		name: T['Filter posts by'],
+		icon: FilterVerticalIcon,
+		uri: '/posts?search=',
+	},
+	{
+		type: 'quick-action',
+		name: T['Search authors'],
+		icon: UserSearchIcon,
+		uri: '/search/authors/',
+	},
+	{
+		type: 'quick-action',
+		name: T['Search categories'],
+		icon: CategoriesIcon,
+		uri: '/search/categories/',
+	},
+]
+const explores: PersonType[] =
+	NC_SITE_SETTINGS.search_page?.recommended_searches?.items
+		?.map((item, index) => {
+			return {
+				type: 'recommended_searches',
+				name: item?.title || '',
+				icon: SearchIcon,
+				uri: item?.url || '/search/posts/' + item?.title,
+			}
+		})
+		.filter(Boolean) || []
 
 interface Props {
-  renderTrigger?: () => ReactNode;
+	renderTrigger?: () => ReactNode
+	triggerClassName?: string
 }
 
-const SearchModal: FC<Props> = ({ renderTrigger }) => {
-  const [open, setOpen] = useState(false);
-  const [rawQuery, setRawQuery] = useState("a");
+const SearchModal: FC<Props> = ({ renderTrigger, triggerClassName = '' }) => {
+	const client = getApolloClient()
+	const router = useRouter()
+	const [isLoading, setIsLoading] = useState(false)
+	const [open, setOpen] = useState(false)
+	const [query, setQuery] = useState('')
+	const [posts, setPosts] = useState<TPostCard[]>([])
 
-  const router = useRouter();
+	const GQL = gql(`
+		#graphql
+		query SearchFormQueryGetPostsBySearch(
+			$first: Int
+			$search: String
+		) {
+			posts(first: $first, where: { search: $search }) {
+				nodes {
+					...NcmazFcPostCardFields
+				}
+				pageInfo {
+					endCursor
+					hasNextPage
+				}
+			}
+		}
+	`)
 
-  const query = rawQuery.toLowerCase().replace(/^[#>]/, "");
+	function fetchData(query: string) {
+		setIsLoading(true)
+		client
+			.query({
+				query: GQL,
+				variables: {
+					search: query,
+					first: 8,
+				},
+			})
+			.then((res) => {
+				setPosts((res?.data?.posts?.nodes as TPostCard[]) || [])
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+			.finally(() => {
+				setIsLoading(false)
+			})
+	}
 
-  const filteredPosts =
-    rawQuery === "#"
-      ? posts
-      : query === "" || rawQuery.startsWith(">")
-      ? []
-      : posts.filter((project) => project.title.toLowerCase().includes(query));
+	useEffect(() => {
+		if (query !== '') {
+			fetchData(query)
+			setPosts([])
+		}
+	}, [query])
 
-  const filteredProjects =
-    rawQuery === "#"
-      ? categories
-      : query === "" || rawQuery.startsWith(">")
-      ? []
-      : categories.filter((project) =>
-          project.name.toLowerCase().includes(query)
-        );
+	const handleSetSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setQuery(e.target.value)
+	}
 
-  const filteredUsers =
-    rawQuery === ">"
-      ? authors
-      : query === "" || rawQuery.startsWith("#")
-      ? []
-      : authors.filter((user) =>
-          user.displayName.toLowerCase().includes(query)
-        );
+	return (
+		<>
+			<div onClick={() => setOpen(true)} className={triggerClassName}>
+				{renderTrigger ? (
+					renderTrigger()
+				) : (
+					<button className="flex h-10 w-10 items-center justify-center rounded-full text-neutral-700 hover:bg-neutral-100 focus:outline-none sm:h-12 sm:w-12 dark:text-neutral-300 dark:hover:bg-neutral-800">
+						<SearchIcon className="h-5 w-5" />
+					</button>
+				)}
+			</div>
 
-  return (
-    <>
-      <div onClick={() => setOpen(true)} className="cursor-pointer">
-        {renderTrigger ? (
-          renderTrigger()
-        ) : (
-          <button className="flex w-10 h-10 sm:w-12 sm:h-12 rounded-full text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none items-center justify-center">
-            <svg
-              width={22}
-              height={22}
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M11.5 21C16.7467 21 21 16.7467 21 11.5C21 6.25329 16.7467 2 11.5 2C6.25329 2 2 6.25329 2 11.5C2 16.7467 6.25329 21 11.5 21Z"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M22 22L20 20"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-        )}
-      </div>
+			<Transition show={open} afterLeave={() => setQuery('')} appear>
+				<Dialog className={`relative z-50`} onClose={setOpen}>
+					<TransitionChild
+						enter="ease-out duration-200"
+						enterFrom="opacity-0"
+						enterTo="opacity-100"
+						leave="ease-in duration-150"
+						leaveFrom="opacity-200"
+						leaveTo="opacity-0"
+					>
+						<div className="fixed inset-0 bg-neutral-900/50 transition-opacity" />
+					</TransitionChild>
 
-      <Transition.Root
-        show={open}
-        as={Fragment}
-        afterLeave={() => setRawQuery("a")}
-        appear
-      >
-        <Dialog
-          as="div"
-          className="relative z-[99]"
-          onClose={() => setOpen(false)}
-        >
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black/40 transition-opacity" />
-          </Transition.Child>
+					<div className="fixed inset-0 z-10 flex w-full overflow-y-auto sm:p-6 md:pb-10 md:pt-20">
+						<TransitionChild
+							enter="ease-out duration-200"
+							enterFrom="opacity-0 translate-y-20 sm:translate-y-0 sm:scale-95"
+							enterTo="opacity-100 translate-y-0 sm:scale-100"
+							leave="ease-in duration-150"
+							leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+							leaveTo="opacity-0 translate-y-20 sm:translate-y-0 sm:scale-95"
+						>
+							<DialogPanel className="mx-auto w-full max-w-2xl transform divide-y divide-gray-100 self-end overflow-hidden bg-white shadow-2xl ring-1 ring-black/5 transition-all sm:self-start sm:rounded-xl dark:divide-gray-700 dark:bg-neutral-800 dark:ring-white/10">
+								<Combobox
+									onChange={(item?: PersonType) => {
+										if (!item?.uri) {
+											return
+										}
+										if (item.type === 'quick-action') {
+											router.push(item.uri + query)
+											setOpen(false)
+											return
+										}
+										router.push(item.uri || '')
+										setOpen(false)
+									}}
+									form="search-form-combobox"
+								>
+									<div className="relative">
+										<MagnifyingGlassIcon
+											className="pointer-events-none absolute start-4 top-3.5 h-5 w-5 text-gray-400 dark:text-gray-300"
+											aria-hidden="true"
+										/>
+										<div className="pe-9">
+											<ComboboxInput
+												autoFocus
+												className="h-12 w-full border-0 bg-transparent pe-4 ps-11 text-sm text-gray-900 placeholder:text-gray-400 focus:ring-0 dark:text-gray-100 dark:placeholder:text-gray-300"
+												placeholder={T['Type to search...']}
+												onChange={_.debounce(handleSetSearchValue, 200)}
+												onBlur={() => setQuery('')}
+											/>
+										</div>
+										<button
+											className="absolute end-3 top-1/2 z-10 -translate-y-1/2 text-xs text-neutral-400 focus:outline-none sm:end-4 dark:text-neutral-300"
+											onClick={() => setOpen(false)}
+											type="button"
+										>
+											<XMarkIcon className="block h-5 w-5 sm:hidden" />
+											<span className="hidden sm:block">
+												<kbd className="font-sans">Esc</kbd>
+											</span>
+										</button>
+									</div>
 
-          <div className="fixed inset-0 z-10 overflow-y-auto p-4 sm:p-6 md:p-20">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-100"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-100"
-            >
-              <Dialog.Panel
-                className="block mx-auto max-w-2xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all"
-                as="form"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  router.push("/search");
-                  setOpen(false);
-                }}
-              >
-                <Combobox
-                  onChange={(item: any) => {
-                    router.push(item.href);
-                    setOpen(false);
-                  }}
-                  name="searchpallet"
-                >
-                  <div className="relative">
-                    <MagnifyingGlassIcon
-                      className="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400"
-                      aria-hidden="true"
-                    />
-                    <Combobox.Input
-                      className="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
-                      placeholder="Search..."
-                      onChange={(event) => setRawQuery(event.target.value)}
-                    />
-                  </div>
+									{isLoading && (
+										<div className="flex w-full items-center justify-center py-5">
+											<Loading />
+										</div>
+									)}
 
-                  {(filteredProjects.length > 0 ||
-                    filteredUsers.length > 0 ||
-                    filteredPosts.length > 0) && (
-                    <Combobox.Options
-                      static
-                      className="max-h-80 scroll-py-10 scroll-pb-2 space-y-4 overflow-y-auto p-4 pb-2"
-                    >
-                      {filteredPosts.length > 0 && (
-                        <li>
-                          <h2 className="text-xs font-semibold text-gray-900">
-                            Posts
-                          </h2>
-                          <ul className="-mx-4 mt-2 text-sm text-gray-700">
-                            {filteredPosts.map((post) => (
-                              <Combobox.Option
-                                key={post.id}
-                                value={post}
-                                className={({ active }) =>
-                                  classNames(
-                                    "flex select-none items-center px-4 py-2",
-                                    active && "bg-indigo-600 text-white"
-                                  )
-                                }
-                              >
-                                {({ active }) => (
-                                  <>
-                                    <ClockIcon
-                                      className={classNames(
-                                        "h-6 w-6 flex-none",
-                                        active ? "text-white" : "text-gray-400"
-                                      )}
-                                      aria-hidden="true"
-                                    />
-                                    <span className="ms-3 flex-auto truncate">
-                                      {post.title}
-                                    </span>
-                                  </>
-                                )}
-                              </Combobox.Option>
-                            ))}
-                          </ul>
-                        </li>
-                      )}
+									<ComboboxOptions
+										static
+										as="ul"
+										className="max-h-[70vh] scroll-py-2 divide-y divide-gray-100 overflow-y-auto dark:divide-gray-700"
+									>
+										{query !== '' && !isLoading && (
+											<li className="p-2">
+												<ul className="divide-y divide-gray-100 text-sm text-gray-700 dark:divide-gray-700 dark:text-gray-300">
+													{posts.length ? (
+														posts.map((post) => (
+															<ComboboxOption
+																as={'li'}
+																key={post.databaseId}
+																value={post}
+																className={({ focus }) =>
+																	clsx(
+																		'relative flex cursor-default select-none items-center',
+																		focus &&
+																			'bg-neutral-100 dark:bg-neutral-700',
+																	)
+																}
+															>
+																{({ focus }) => (
+																	<CardPost post={post} focus={focus} />
+																)}
+															</ComboboxOption>
+														))
+													) : (
+														<div className="py-5 text-center">
+															<Empty />
+														</div>
+													)}
+												</ul>
+											</li>
+										)}
 
-                      {filteredProjects.length > 0 && (
-                        <li>
-                          <h2 className="text-xs font-semibold text-gray-900">
-                            Categories
-                          </h2>
-                          <ul className="-mx-4 mt-2 text-sm text-gray-700">
-                            {filteredProjects.map((project) => (
-                              <Combobox.Option
-                                key={project.id}
-                                value={project}
-                                className={({ active }) =>
-                                  classNames(
-                                    "flex select-none items-center px-4 py-2",
-                                    active && "bg-indigo-600 text-white"
-                                  )
-                                }
-                              >
-                                {({ active }) => (
-                                  <>
-                                    <HashtagIcon
-                                      className={classNames(
-                                        "h-6 w-6 flex-none",
-                                        active ? "text-white" : "text-gray-400"
-                                      )}
-                                      aria-hidden="true"
-                                    />
-                                    <span className="ms-3 flex-auto truncate">
-                                      {project.name}
-                                    </span>
-                                  </>
-                                )}
-                              </Combobox.Option>
-                            ))}
-                          </ul>
-                        </li>
-                      )}
+										{query === '' && (
+											<li className="p-2">
+												<h2 className="mb-2 mt-4 px-3 text-xs font-medium text-gray-500 dark:text-gray-300">
+													{T['Recommended searches']}
+												</h2>
 
-                      {filteredUsers.length > 0 && (
-                        <li>
-                          <h2 className="text-xs font-semibold text-gray-900">
-                            Authors
-                          </h2>
-                          <ul className="-mx-4 mt-2 text-sm text-gray-700">
-                            {filteredUsers.map((user) => (
-                              <Combobox.Option
-                                key={user.id}
-                                value={user}
-                                className={({ active }) =>
-                                  classNames(
-                                    "flex select-none items-center px-4 py-2",
-                                    active && "bg-indigo-600 text-white"
-                                  )
-                                }
-                              >
-                                <MyImage
-                                  src={user.avatar}
-                                  alt="author"
-                                  className="h-6 w-6 flex-none rounded-full"
-                                  sizes="30px"
-                                />
-                                <span className="ms-3 flex-auto truncate">
-                                  {user.displayName}
-                                </span>
-                              </Combobox.Option>
-                            ))}
-                          </ul>
-                        </li>
-                      )}
-                    </Combobox.Options>
-                  )}
+												<ul className="text-sm text-gray-700 dark:text-gray-300">
+													{explores.map((explore) => (
+														<ComboboxOption
+															as={'li'}
+															key={explore.name}
+															value={explore}
+															className={({ focus }) =>
+																clsx(
+																	'flex cursor-default select-none items-center rounded-md px-3 py-2',
+																	focus && 'bg-neutral-100 dark:bg-neutral-700',
+																)
+															}
+														>
+															{({ focus }) => (
+																<>
+																	<explore.icon
+																		className={clsx(
+																			'h-6 w-6 flex-none text-neutral-400 dark:text-gray-300',
+																		)}
+																		aria-hidden="true"
+																	/>
+																	<span className="ms-3 flex-auto truncate">
+																		{explore.name}
+																	</span>
+																	{focus && (
+																		<span className="ms-3 flex-none text-neutral-500 dark:text-gray-400">
+																			<ArrowUpRightIcon className="inline-block h-4 w-4" />
+																		</span>
+																	)}
+																</>
+															)}
+														</ComboboxOption>
+													))}
+												</ul>
+											</li>
+										)}
 
-                  {rawQuery === "?" && (
-                    <div className="py-14 px-6 text-center text-sm sm:px-14">
-                      <LifebuoyIcon
-                        className="mx-auto h-6 w-6 text-gray-400"
-                        aria-hidden="true"
-                      />
-                      <p className="mt-4 font-semibold text-gray-900">
-                        Help with searching
-                      </p>
-                      <p className="mt-2 text-gray-500">
-                        Use this tool to quickly search for users and projects
-                        across our entire platform. You can also use the search
-                        modifiers found in the footer below to limit the results
-                        to just users or projects.
-                      </p>
-                    </div>
-                  )}
+										<li className="p-2">
+											<h2 className="sr-only">Quick actions</h2>
+											<ul className="text-sm text-gray-700 dark:text-gray-300">
+												{quickActions.map((action) => (
+													<ComboboxOption
+														as={'li'}
+														key={action.name}
+														value={action}
+														className={({ focus }) =>
+															clsx(
+																'flex cursor-default select-none items-center rounded-md px-3 py-2',
+																focus && 'bg-neutral-100 dark:bg-neutral-700',
+															)
+														}
+													>
+														{({ focus }) => (
+															<>
+																<action.icon
+																	className={clsx(
+																		'h-6 w-6 flex-none text-neutral-400 dark:text-gray-300',
+																		focus ? '' : '',
+																	)}
+																	aria-hidden="true"
+																/>
+																<span className="ms-3 flex-auto truncate">
+																	{action.name}
+																</span>
+																<span
+																	className={clsx(
+																		'ms-3 flex-none text-xs font-semibold text-neutral-400 dark:text-gray-300',
+																		focus ? '' : '',
+																	)}
+																>
+																	<ArrowUpRightIcon className="inline-block h-4 w-4" />
+																</span>
+															</>
+														)}
+													</ComboboxOption>
+												))}
+											</ul>
+										</li>
+									</ComboboxOptions>
+								</Combobox>
+							</DialogPanel>
+						</TransitionChild>
+					</div>
+				</Dialog>
+			</Transition>
+		</>
+	)
+}
 
-                  {query !== "" &&
-                    rawQuery !== "?" &&
-                    filteredProjects.length === 0 &&
-                    filteredUsers.length === 0 && (
-                      <div className="py-14 px-6 text-center text-sm sm:px-14">
-                        <ExclamationTriangleIcon
-                          className="mx-auto h-6 w-6 text-gray-400"
-                          aria-hidden="true"
-                        />
-                        <p className="mt-4 font-semibold text-gray-900">
-                          No results found
-                        </p>
-                        <p className="mt-2 text-gray-500">
-                          We couldn’t find anything with that term. Please try
-                          again.
-                        </p>
-                      </div>
-                    )}
+const CardPost = ({ post, focus }: { post: TPostCard; focus: boolean }) => {
+	const { title, date, categories, author, postFormats, featuredImage } =
+		getPostDataFromPostFragment(post)
 
-                  <div className="flex flex-wrap items-center bg-gray-50 py-2.5 px-4 text-xs text-gray-700">
-                    Type enter to go to search page
-                  </div>
-                </Combobox>
-              </Dialog.Panel>
-            </Transition.Child>
-          </div>
-        </Dialog>
-      </Transition.Root>
-    </>
-  );
-};
+	return (
+		<div
+			className={`group relative flex flex-row-reverse gap-3 rounded-2xl p-4 sm:gap-5 ${focus ? '' : ''}`}
+		>
+			<div className="space-y-3">
+				<div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+					<p className="text-xs leading-6 text-neutral-500 xl:text-sm dark:text-neutral-400">
+						<span className="capitalize">{author?.name || ''}</span>
+						{author?.name && ' · '}
+						<time dateTime={date} className="leading-6">
+							{ncFormatDate(date)}
+						</time>
+					</p>
 
-export default SearchModal;
+					<span className="relative z-10 rounded-full bg-neutral-50 px-3 py-1.5 text-xs font-medium text-neutral-600 hover:bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-400 dark:hover:bg-neutral-800/80">
+						{categories?.nodes?.[0]?.name || ''}
+					</span>
+				</div>
+				<h4 className="mt-2 text-sm font-medium leading-6 text-neutral-900 dark:text-neutral-300">
+					<span dangerouslySetInnerHTML={{ __html: post.title || '' }}></span>
+				</h4>
+			</div>
+
+			<div
+				className={`relative z-0 hidden h-24 w-24 flex-shrink-0 overflow-hidden rounded-2xl sm:block`}
+			>
+				<MyImage
+					sizes="(max-width: 600px) 180px, 400px"
+					className="h-full w-full object-cover"
+					fill
+					src={featuredImage?.sourceUrl || ''}
+					alt={title || 'Card Image'}
+				/>
+				<span className="absolute bottom-1 start-1">
+					<PostTypeFeaturedIcon
+						wrapSize="h-7 w-7"
+						iconSize="h-4 w-4"
+						postType={postFormats || ''}
+					/>
+				</span>
+			</div>
+		</div>
+	)
+}
+
+export default SearchModal

@@ -1,21 +1,22 @@
-import React, { FC } from "react";
-import NcBookmark, { NcBookmarkProps } from "../NcBookmark/NcBookmark";
+import { FC } from 'react'
+import NcBookmark, { NcBookmarkProps } from '../NcBookmark/NcBookmark'
 
 export interface PostCardSaveActionProps
-  extends Omit<NcBookmarkProps, "containerClassName"> {
-  className?: string;
-  bookmarkClass?: string;
-  readingTime?: number;
-  hidenReadingTime?: boolean;
+	extends Omit<NcBookmarkProps, 'containerClassName'> {
+	className?: string
+	bookmarkClass?: string
+	readingTime?: number
+	hidenReadingTime?: boolean
 }
 
 const PostCardSaveAction: FC<PostCardSaveActionProps> = ({
-  className = "",
-  bookmarkClass,
-  hidenReadingTime = false,
-  readingTime = 3,
-  postDatabseId,
+	className = '',
+	bookmarkClass,
+	hidenReadingTime = false,
+	readingTime = 3,
+	postDatabseId,
 }) => {
+<<<<<<< HEAD
   return (
     <div
       className={`nc-PostCardSaveAction flex items-center gap-x-2 text-xs text-neutral-700 dark:text-neutral-300 ${className}`}
@@ -30,13 +31,29 @@ const PostCardSaveAction: FC<PostCardSaveActionProps> = ({
           </span>
         </>
       )}
+=======
+	return (
+		<div
+			className={`nc-PostCardSaveAction flex items-center gap-x-2 text-xs text-neutral-700 dark:text-neutral-300 ${className}`}
+		>
+			{!hidenReadingTime && !!readingTime && (
+				<>
+					<span className="hidden text-right sm:block">
+						<span className="line-clamp-1">{readingTime} min read</span>
+					</span>
+					<span className="line-clamp-1 block text-right sm:hidden">
+						<span className="line-clamp-1">{readingTime}' read</span>
+					</span>
+				</>
+			)}
+>>>>>>> 0f186b6 (Save changes before rebase)
 
-      <NcBookmark
-        postDatabseId={postDatabseId}
-        containerClassName={bookmarkClass}
-      />
-    </div>
-  );
-};
+			<NcBookmark
+				postDatabseId={postDatabseId}
+				containerClassName={bookmarkClass}
+			/>
+		</div>
+	)
+}
 
-export default PostCardSaveAction;
+export default PostCardSaveAction

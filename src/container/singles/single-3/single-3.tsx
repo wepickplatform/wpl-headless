@@ -1,49 +1,52 @@
-import React, { FC } from "react";
-import Image from "next/image";
-import { SingleType1Props } from "../single/single";
-import SingleHeader from "../SingleHeader";
-import { getPostDataFromPostFragment } from "@/utils/getPostDataFromPostFragment";
-import MyImage from "@/components/MyImage";
+import React, { FC } from 'react'
+import { SingleType1Props } from '../single/single'
+import SingleHeader from '../SingleHeader'
+import { getPostDataFromPostFragment } from '@/utils/getPostDataFromPostFragment'
+import MyImage from '@/components/MyImage'
 
 interface Props extends SingleType1Props {}
 
 const SingleType3: FC<Props> = ({ post }) => {
-  //
-  const { title, content, date, author, databaseId, excerpt, featuredImage } =
-    getPostDataFromPostFragment(post || {});
-  //
+	//
+	const { title, content, date, author, databaseId, excerpt, featuredImage } =
+		getPostDataFromPostFragment(post || {})
+	//
 
-  return (
-    <header className="relative pt-16 z-10 md:py-20 lg:py-28 bg-neutral-900 dark:bg-black">
-      {/* SINGLE HEADER */}
-      <div className="dark container relative z-10">
-        <div
-          className={`max-w-screen-md ${
-            featuredImage?.sourceUrl ? "" : "mx-auto pb-6 md:pb-0"
-          }`}
-        >
-          <SingleHeader post={post} hiddenDesc />
-        </div>
-      </div>
+	const imgWidth = featuredImage?.mediaDetails?.width || 1000
+	const imgHeight = featuredImage?.mediaDetails?.height || 750
 
-      {/* FEATURED IMAGE */}
-      {featuredImage?.sourceUrl && (
-        <div className="mt-8 md:mt-0 md:absolute md:top-0 md:end-0 md:bottom-0 md:w-1/2 lg:w-2/5 2xl:w-1/3">
-          <MyImage
-            className="block w-full h-full object-cover"
-            src={featuredImage?.sourceUrl || ""}
-            alt={title}
-            priority
-            sizes="(max-width: 1024px) 100vw, 1240px"
-            enableDefaultPlaceholder
-            fill
-          />
+	return (
+		<header className="relative z-10 bg-neutral-900 pt-16 lg:py-28 dark:bg-black">
+			{/* SINGLE HEADER */}
+			<div className="dark container relative z-10">
+				<div
+					className={`max-w-full lg:max-w-screen-sm lg:pr-5 xl:max-w-screen-md ${
+						featuredImage?.sourceUrl ? '' : 'mx-auto pb-6 lg:pb-0'
+					}`}
+				>
+					<SingleHeader post={post} hiddenDesc />
+				</div>
+			</div>
 
-          <div className="hidden md:block absolute top-0 start-0 bottom-0 w-1/5 from-neutral-900 dark:from-black bg-gradient-to-r rtl:bg-gradient-to-l"></div>
-        </div>
-      )}
-    </header>
-  );
-};
+			{/* FEATURED IMAGE */}
+			{featuredImage?.sourceUrl && (
+				<div className="mt-8 lg:absolute lg:bottom-0 lg:end-0 lg:top-0 lg:mt-0 lg:w-[37%] 2xl:w-1/3">
+					<MyImage
+						className="mx-auto block object-cover lg:absolute lg:inset-0 lg:h-full lg:w-full"
+						src={featuredImage?.sourceUrl || ''}
+						alt={title}
+						priority
+						sizes="(max-width: 1024px) 100vw, 50vw"
+						enableDefaultPlaceholder
+						width={imgWidth}
+						height={imgHeight}
+					/>
 
-export default SingleType3;
+					<div className="absolute bottom-0 start-0 top-0 hidden w-1/5 bg-gradient-to-r from-neutral-900 md:block rtl:bg-gradient-to-l dark:from-black"></div>
+				</div>
+			)}
+		</header>
+	)
+}
+
+export default SingleType3

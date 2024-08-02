@@ -2,7 +2,7 @@
 // import { NC_PRIMARY_MENU_QUERY_FRAGMENT } from "@/fragments/menu";
 // import dynamic from "next/dynamic";
 // import Link from "next/link";
-// import React, { FC } from "react";
+// import { FC } from "react";
 // const DynamicMenuBar = dynamic(() => import("@/components/MenuBar/MenuBar"), {
 //   ssr: false,
 // });

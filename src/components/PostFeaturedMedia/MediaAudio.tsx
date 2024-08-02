@@ -1,20 +1,20 @@
-import React, { FC } from "react";
-import { PostDataFragmentType } from "@/data/types";
-import ButtonPlayMusicPlayer from "@/components/ButtonPlayMusicPlayer";
+import { FC } from 'react'
+import { PostDataFragmentType } from '@/data/types'
+import ButtonPlayMusicPlayer from '@/components/ButtonPlayMusicPlayer'
 
 export interface MediaAudioProps {
-  post: PostDataFragmentType;
+	post: PostDataFragmentType
 }
 
 const MediaAudio: FC<MediaAudioProps> = ({ post }) => {
-  return (
-    <>
-      <ButtonPlayMusicPlayer
-        className="absolute inset-0 bg-neutral-900/30 flex items-center justify-center"
-        post={post}
-      />
-    </>
-  );
-};
+	return (
+		<>
+			<ButtonPlayMusicPlayer
+				className="absolute inset-0 flex items-center justify-center bg-neutral-900/30"
+				post={post}
+			/>
+		</>
+	)
+}
 
-export default MediaAudio;
+export default MediaAudio

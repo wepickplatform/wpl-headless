@@ -1,45 +1,45 @@
-import React, { FC, useState } from "react";
-import { EditorItemImageAttrs } from "./MenuBar";
-import ModalUploadImage from "./ModalUploadImage";
+import { FC, useState } from 'react'
+import { EditorItemImageAttrs } from './MenuBar'
+import ModalUploadImage from './ModalUploadImage'
 
 interface MenuItemImageProps {
-  action: ({ url, alt, title }: EditorItemImageAttrs) => void;
-  children?: React.ReactNode;
+	action: ({ url, alt, title }: EditorItemImageAttrs) => void
+	children?: React.ReactNode
 }
 
 const MenuItemImage: FC<MenuItemImageProps> = ({ action, children }) => {
-  let [isOpen, setIsOpen] = useState(false);
+	let [isOpen, setIsOpen] = useState(false)
 
-  function closeModal() {
-    setIsOpen(false);
-  }
+	function closeModal() {
+		setIsOpen(false)
+	}
 
-  function openModal() {
-    setIsOpen(true);
-  }
+	function openModal() {
+		setIsOpen(true)
+	}
 
-  const handleApply = ({ url, alt }: EditorItemImageAttrs) => {
-    action({ url, alt });
-    closeModal();
-  };
-  const handleDelete = () => {
-    action({ url: "", alt: "" });
-    closeModal();
-  };
+	const handleApply = ({ url, alt }: EditorItemImageAttrs) => {
+		action({ url, alt })
+		closeModal()
+	}
+	const handleDelete = () => {
+		action({ url: '', alt: '' })
+		closeModal()
+	}
 
-  return (
-    <>
-      <div className="inline-flex" onClick={openModal}>
-        {children}
-      </div>
-      <ModalUploadImage
-        onClickApply={handleApply}
-        open={isOpen}
-        hanldeClose={closeModal}
-        onDelete={handleDelete}
-      />
-    </>
-  );
-};
+	return (
+		<>
+			<div className="inline-flex" onClick={openModal}>
+				{children}
+			</div>
+			<ModalUploadImage
+				onClickApply={handleApply}
+				open={isOpen}
+				hanldeClose={closeModal}
+				onDelete={handleDelete}
+			/>
+		</>
+	)
+}
 
-export default MenuItemImage;
+export default MenuItemImage

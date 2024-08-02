@@ -1,23 +1,26 @@
-import React, { FC } from "react";
+import { FC } from 'react'
+import { decode } from 'html-entities'
 
 interface ErrorProps {
-  error: any;
-  className?: string;
+	error: any
+	className?: string
 }
 
-const Error: FC<ErrorProps> = ({ error, className = "py-5" }) => {
-  if (!error) return null;
+const Error: FC<ErrorProps> = ({ error: errorProp, className = 'py-5' }) => {
+	if (!errorProp) return null
 
-  return (
-    <div
-      className={`prose-not text-xs text-red-500 dark:text-red-400 italic overflow-hidden max-w-lg ${className}`}
-    >
-      {typeof error === "string" && (
-        <span dangerouslySetInnerHTML={{ __html: error }}></span>
-      )}
-      {typeof error !== "string" && <pre>{JSON.stringify(error, null, 2)}</pre>}
-    </div>
-  );
-};
+	const error = decode(errorProp)
 
-export default Error;
+	return (
+		<div
+			className={`prose-not max-w-lg overflow-hidden text-xs italic text-red-500 dark:text-red-400 ${className}`}
+		>
+			{typeof error === 'string' && (
+				<span dangerouslySetInnerHTML={{ __html: error }}></span>
+			)}
+			{typeof error !== 'string' && <pre>{JSON.stringify(error, null, 2)}</pre>}
+		</div>
+	)
+}
+
+export default Error

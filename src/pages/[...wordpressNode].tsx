@@ -34,6 +34,7 @@ export async function myGetPaths() {
     { slug: "home-4-video" },
     { slug: "home-5-gallery" },
     { slug: "home-6" },
+    { slug: "search/posts/" },
   ];
 
   return posts.map((page) => ({

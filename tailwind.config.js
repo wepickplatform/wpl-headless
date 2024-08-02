@@ -17,7 +17,7 @@ function customColors(cssVar) {
 
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
-  darkMode: "class", // or 'media' or 'class',
+  darkMode: "selector",
   safelist: [
     {
       pattern: /grid-cols-(1|2|3|4|5)/,

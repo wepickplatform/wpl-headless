@@ -1,22 +1,22 @@
-import React, { FC } from "react";
+import { FC } from 'react'
 
 export interface LoadingVideoProps {
-  className?: string;
-  chilClassName?: string;
+	className?: string
+	chilClassName?: string
 }
 
 const LoadingVideo: FC<LoadingVideoProps> = ({
-  className = "",
-  chilClassName = "bg-white",
+	className = '',
+	chilClassName = 'bg-white',
 }) => {
-  return (
-    <div className={`nc-LoadingVideo lds-ellipsis ${className}`}>
-      <div className={chilClassName}></div>
-      <div className={chilClassName}></div>
-      <div className={chilClassName}></div>
-      <div className={chilClassName}></div>
-    </div>
-  );
-};
+	return (
+		<div className={`nc-LoadingVideo lds-ellipsis ${className}`}>
+			<div className={chilClassName}></div>
+			<div className={chilClassName}></div>
+			<div className={chilClassName}></div>
+			<div className={chilClassName}></div>
+		</div>
+	)
+}
 
-export default LoadingVideo;
+export default LoadingVideo

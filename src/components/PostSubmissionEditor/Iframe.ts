@@ -1,80 +1,84 @@
-import { Node } from "@tiptap/core";
+import { Node } from '@tiptap/core'
 
 export interface IframeOptions {
-  allowFullscreen: boolean;
-  HTMLAttributes: {
-    [key: string]: any;
-  };
+	allowFullscreen: boolean
+	HTMLAttributes: {
+		[key: string]: any
+	}
 }
 
-declare module "@tiptap/core" {
-  interface Commands<ReturnType> {
-    iframe: {
-      /**
-       * Add an iframe
-       */
-      setIframe: (options: { src: string }) => ReturnType;
-    };
-  }
+declare module '@tiptap/core' {
+	interface Commands<ReturnType> {
+		iframe: {
+			/**
+			 * Add an iframe
+			 */
+			setIframe: (options: { src: string }) => ReturnType
+		}
+	}
 }
 
 export default Node.create<IframeOptions>({
-  name: "iframe",
+	name: 'iframe',
 
-  group: "block",
+	group: 'block',
 
-  atom: true,
+	atom: true,
 
-  addOptions() {
-    return {
-      allowFullscreen: true,
-      HTMLAttributes: {
-        class: "nc-iframe-wrapper",
-      },
-    };
-  },
+	addOptions() {
+		return {
+			allowFullscreen: true,
+			HTMLAttributes: {
+				class: 'nc-iframe-wrapper',
+			},
+		}
+	},
 
-  addAttributes() {
-    return {
-      src: {
-        default: null,
-      },
-      frameborder: {
-        default: 0,
-      },
-      allowfullscreen: {
-        default: this.options.allowFullscreen,
-        parseHTML: () => this.options.allowFullscreen,
-      },
-    };
-  },
+	addAttributes() {
+		return {
+			src: {
+				default: null,
+			},
+			frameborder: {
+				default: 0,
+			},
+			allowfullscreen: {
+				default: this.options.allowFullscreen,
+				parseHTML: () => this.options.allowFullscreen,
+			},
+		}
+	},
 
-  parseHTML() {
-    return [
-      {
-        tag: "iframe",
-      },
-    ];
-  },
+	parseHTML() {
+		return [
+			{
+				tag: 'iframe',
+			},
+		]
+	},
 
-  renderHTML({ HTMLAttributes }) {
-    return ["div", this.options.HTMLAttributes, ["iframe", HTMLAttributes]];
-  },
+	renderHTML({ HTMLAttributes }) {
+		return [
+			'div',
+			this.options.HTMLAttributes,
+			['iframe', { ...HTMLAttributes, width: 640, height: 360 }],
+		]
+	},
 
-  addCommands() {
-    return {
-      setIframe:
-        (options: { src: string }) =>
-        ({ tr, dispatch }) => {
-          const { selection } = tr;
-          const node = this.type.create(options);
+	addCommands() {
+		return {
+			setIframe:
+				(options: { src: string }) =>
+				({ tr, dispatch }) => {
+					const { selection } = tr
+					const node = this.type.create(options)
 
-          if (dispatch) {
-            tr.replaceRangeWith(selection.from, selection.to, node);
-          }
+					if (dispatch) {
+						tr.replaceRangeWith(selection.from, selection.to, node)
+					}
 
-          return true;
-        },
-    };
-  },
-});
+					return true
+				},
+		}
+	},
+})

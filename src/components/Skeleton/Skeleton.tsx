@@ -1,21 +1,21 @@
-import React, { FC } from "react";
+import { FC } from 'react'
 import SkeletonLib, {
-  SkeletonProps as LibSkeletonProps,
-} from "react-loading-skeleton";
+	SkeletonProps as LibSkeletonProps,
+} from 'react-loading-skeleton'
 export interface SkeletonProps extends LibSkeletonProps {
-  wrapClassName?: string;
+	wrapClassName?: string
 }
 
 const Skeleton: FC<SkeletonProps> = ({
-  wrapClassName = "",
-  borderRadius,
-  ...props
+	wrapClassName = '',
+	borderRadius,
+	...props
 }) => {
-  return (
-    <>
-      <SkeletonLib {...props} borderRadius={borderRadius || 12} />
-    </>
-  );
-};
+	return (
+		<>
+			<SkeletonLib {...props} borderRadius={borderRadius || 12} />
+		</>
+	)
+}
 
-export default Skeleton;
+export default Skeleton

@@ -2,7 +2,7 @@
 // import Alert from "@/components/Alert";
 // import CircleLoading from "@/components/Loading/CircleLoading";
 // import { getApolloAuthClient, useAuth, useLogin } from "@faustwp/core";
-// import React, { useState, useId, FC, useEffect, useDeferredValue } from "react";
+// import { useState, useId, FC, useEffect, useDeferredValue } from "react";
 // import toast from "react-hot-toast";
 
 // interface ImageUploadToServerProps {

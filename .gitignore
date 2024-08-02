@@ -36,3 +36,10 @@ yarn-error.log*
 .next
 .faust
 
+## Build artifacts for sitemaps
+/public/sitemap*.xml
+/public/robots.txt
+
+## code editors
+.idea
+.vscode
