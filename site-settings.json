@@ -108,6 +108,14 @@
 		"show_top_categories": true,
 		"show_newsletter_section": true
 	},
+		"archive_page": {
+		"show_newsletter_section": true,
+		"show_top_categories": true
+	},
+		"author_page": {
+		"show_newsletter_section": true,
+		"show_top_categories": true
+	},
   "post_card": {
     "show_view_cout": false,
     "show_comment_count": true
