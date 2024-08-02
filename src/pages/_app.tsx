@@ -24,7 +24,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   return (
-<<<<<<< HEAD
+
     <FaustProvider pageProps={pageProps}>
       <WordPressBlocksProvider
         config={{
@@ -53,7 +53,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         </SiteWrapperProvider>
       </WordPressBlocksProvider>
     </FaustProvider>
-=======
+
     <>
       <GoogleAnalytics trackPageViews />
 
@@ -86,6 +86,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         </WordPressBlocksProvider>
       </FaustProvider>
     </>
->>>>>>> 0f186b6 (Save changes before rebase)
+
   );
 }
