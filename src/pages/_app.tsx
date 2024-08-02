@@ -24,36 +24,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   return (
-
-    <FaustProvider pageProps={pageProps}>
-      <WordPressBlocksProvider
-        config={{
-          blocks,
-          theme: fromThemeJson(themeJson),
-        }}
-      >
-        <SiteWrapperProvider {...pageProps}>
-          <style jsx global>{`
-            html {
-              font-family: ${notoSansKr.style.fontFamily};
-            }
-          `}</style>
-          <NextNProgress color="#818cf8" />
-          <Component {...pageProps} key={router.asPath} />
-          <Toaster
-            position="bottom-left"
-            toastOptions={{
-              style: {
-                fontSize: "14px",
-                borderRadius: "0.75rem",
-              },
-            }}
-            containerClassName="text-sm"
-          />
-        </SiteWrapperProvider>
-      </WordPressBlocksProvider>
-    </FaustProvider>
-
     <>
       <GoogleAnalytics trackPageViews />
 
@@ -86,6 +56,5 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         </WordPressBlocksProvider>
       </FaustProvider>
     </>
-
   );
 }
