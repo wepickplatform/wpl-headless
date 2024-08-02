@@ -17,7 +17,9 @@ import { FOOTER_LOCATION, PRIMARY_LOCATION } from '@/contains/menu'
 import PageLayout from '@/container/PageLayout'
 import errorHandling from '@/utils/errorHandling'
 import getTrans from '@/utils/getTrans'
-import { FireIcon, UserSearchIcon } from '@/components/icons/icons'
+/*
+import { FireIcon, UserSearchIcon } from '@/components/Icons/Icons'
+*/
 import { UsersIcon } from '@heroicons/react/24/outline'
 
 const Page: FaustPage<SearchPageQueryGetUsersBySearchQuery> = (props) => {
