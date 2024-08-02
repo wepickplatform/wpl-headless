@@ -29,7 +29,6 @@ const CardAuthor2: FC<CardAuthor2Props> = ({
 			author as FragmentType<typeof NC_USER_FULL_FIELDS_FRAGMENT>,
 		)
 
-<<<<<<< HEAD
   return (
     <Link
       href={uri || ""}
@@ -75,7 +74,7 @@ const CardAuthor2: FC<CardAuthor2Props> = ({
     </Link>
   );
 };
-=======
+
 	return (
 		<Link
 			href={uri || ''}
@@ -121,6 +120,6 @@ const CardAuthor2: FC<CardAuthor2Props> = ({
 		</Link>
 	)
 }
->>>>>>> 0f186b6 (Save changes before rebase)
+
 
 export default CardAuthor2
