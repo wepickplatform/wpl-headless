@@ -113,12 +113,62 @@
     "show_comment_count": true
   },
 
-  "submissions-settings": {
-    "enable": true,
-    "max_categories_allowed": 3,
-    "max_tags_allowed": 5,
-    "allow_upload_media": true
-  },
+	"submissions-settings": {
+		"enable": true,
+		"max_categories_allowed": 3,
+		"max_tags_allowed": 5,
+		"allow_upload_media": true,
+		"allow_upload_media_max_size_mb": 5,
+		"post_options": [
+			{
+				"name": "Schedule_Publication",
+				"label": "Schedule Publication",
+				"enable": true
+			},
+			{
+				"name": "Post_Format",
+				"label": "Post Format",
+				"enable": true,
+				"options": [
+					{
+						"name": "standard",
+						"enable": true,
+						"label": "Standard"
+					},
+					{
+						"name": "gallery",
+						"enable": true,
+						"label": "Gallery"
+					},
+					{
+						"name": "video",
+						"enable": true,
+						"label": "Video"
+					},
+					{
+						"name": "audio",
+						"enable": true,
+						"label": "Audio"
+					}
+				]
+			},
+			{
+				"name": "Allow_Comments",
+				"label": "Allow Comments",
+				"enable": true
+			},
+			{
+				"name": "Post_Style",
+				"label": "Post Style",
+				"enable": true
+			},
+			{
+				"name": "Show_Right_Sidebar",
+				"label": "Show Right Sidebar",
+				"enable": true
+			}
+		]
+	},
 
   "resetPassword_page": {
     "title": "Lost your password?",
