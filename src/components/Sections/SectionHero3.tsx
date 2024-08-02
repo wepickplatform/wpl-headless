@@ -8,7 +8,7 @@ import { getPostDataFromPostFragment } from '@/utils/getPostDataFromPostFragment
 
 export interface SectionHero3Props extends SectionMagazine1Props {}
 
-<<<<<<< HEAD
+
 const SectionHero3: FC<SectionHero3Props> = ({ posts, className = "" }) => {
   const renderMain = () => {
     const { featuredImage, title, excerpt, uri } = getPostDataFromPostFragment(
@@ -48,7 +48,7 @@ const SectionHero3: FC<SectionHero3Props> = ({ posts, className = "" }) => {
       </div>
     );
   };
-=======
+
 const SectionHero3: FC<SectionHero3Props> = ({ posts, className = '' }) => {
 	const renderMain = () => {
 		const { featuredImage, title, excerpt, uri } = getPostDataFromPostFragment(
@@ -88,7 +88,7 @@ const SectionHero3: FC<SectionHero3Props> = ({ posts, className = '' }) => {
 			</div>
 		)
 	}
->>>>>>> 0f186b6 (Save changes before rebase)
+
 
 	const renderSubPosts = () => {
 		const subPosts = posts.filter((_, i) => i >= 1 && i < 4)
