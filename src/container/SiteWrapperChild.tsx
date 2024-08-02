@@ -97,20 +97,6 @@ export function SiteWrapperChild({
 		)
 	}, [isAuthenticated])
 
-<<<<<<< HEAD
-  if (pathname?.startsWith("/ncmaz_for_ncmazfc_preview_blocks")) {
-    return null;
-  }
-/*
-  return (
-    <div>
-      <CookiestBoxPopover />
-      <ControlSettingsDemo />
-      <MusicPlayer />
-    </div>
-  );
-  */
-=======
 	if (pathname?.startsWith('/ncmaz_for_ncmazfc_preview_blocks')) {
 		return null
 	}
@@ -122,5 +108,4 @@ export function SiteWrapperChild({
 			<MusicPlayer />
 		</div>
 	)
->>>>>>> 0f186b6 (Save changes before rebase)
 }
