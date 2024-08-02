@@ -8,47 +8,6 @@ import { getPostDataFromPostFragment } from '@/utils/getPostDataFromPostFragment
 
 export interface SectionHero3Props extends SectionMagazine1Props {}
 
-
-const SectionHero3: FC<SectionHero3Props> = ({ posts, className = "" }) => {
-  const renderMain = () => {
-    const { featuredImage, title, excerpt, uri } = getPostDataFromPostFragment(
-      posts[0]
-    );
-    return (
-      <div className="aspect-h-8 aspect-w-8 sm:aspect-w-10 lg:aspect-w-16 ">
-        <NcImage
-          alt={featuredImage?.altText || title}
-          containerClassName="absolute inset-0 rounded-[40px] overflow-hidden z-0"
-          src={featuredImage?.sourceUrl || ""}
-          fill
-          sizes="(max-width: 1024px) 100vw, 1280px"
-          enableDefaultPlaceholder
-          priority
-        />
-        <span className="absolute inset-0 rounded-[40px] bg-black bg-opacity-50"></span>
-        <div className="absolute inset-0 p-5 md:p-14 xl:p-20 2xl:p-28">
-          <div className="max-w-2xl">
-            <h2 className="text-xl sm:text-3xl lg:text-4xl font-semibold text-white">
-              <span className="line-clamp-2">{title}</span>
-            </h2>
-            <span className="block text-sm sm:text-base text-neutral-300 mt-3 sm:mt-5">
-              <span
-                className="line-clamp-2"
-                dangerouslySetInnerHTML={{ __html: excerpt }}
-              ></span>
-            </span>
-            <div className="mt-5 sm:mt-8">
-              <ButtonSecondary href={uri}>
-                <span>자세히 보기</span>
-                <ArrowRightIcon className="ms-3 w-5 h-5 rtl:rotate-180" />
-              </ButtonSecondary>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
 const SectionHero3: FC<SectionHero3Props> = ({ posts, className = '' }) => {
 	const renderMain = () => {
 		const { featuredImage, title, excerpt, uri } = getPostDataFromPostFragment(
@@ -79,7 +38,7 @@ const SectionHero3: FC<SectionHero3Props> = ({ posts, className = '' }) => {
 						</span>
 						<div className="mt-5 sm:mt-8">
 							<ButtonSecondary href={uri}>
-								<span> Read more</span>
+								<span>자세히보기</span>
 								<ArrowRightIcon className="ms-3 h-5 w-5 rtl:rotate-180" />
 							</ButtonSecondary>
 						</div>
@@ -88,7 +47,6 @@ const SectionHero3: FC<SectionHero3Props> = ({ posts, className = '' }) => {
 			</div>
 		)
 	}
-
 
 	const renderSubPosts = () => {
 		const subPosts = posts.filter((_, i) => i >= 1 && i < 4)
