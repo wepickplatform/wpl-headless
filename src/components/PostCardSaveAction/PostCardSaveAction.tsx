@@ -16,22 +16,6 @@ const PostCardSaveAction: FC<PostCardSaveActionProps> = ({
 	readingTime = 3,
 	postDatabseId,
 }) => {
-
-  return (
-    <div
-      className={`nc-PostCardSaveAction flex items-center gap-x-2 text-xs text-neutral-700 dark:text-neutral-300 ${className}`}
-    >
-      {!hidenReadingTime && !!readingTime && (
-        <>
-          <span className="hidden sm:block text-right">
-            <span className="line-clamp-1">{readingTime} 분</span>
-          </span>
-          <span className="block sm:hidden line-clamp-1 text-right">
-            <span className="line-clamp-1">{readingTime}' read</span>
-          </span>
-        </>
-      )}
-
 	return (
 		<div
 			className={`nc-PostCardSaveAction flex items-center gap-x-2 text-xs text-neutral-700 dark:text-neutral-300 ${className}`}
@@ -46,8 +30,6 @@ const PostCardSaveAction: FC<PostCardSaveActionProps> = ({
 					</span>
 				</>
 			)}
-
-
 			<NcBookmark
 				postDatabseId={postDatabseId}
 				containerClassName={bookmarkClass}
