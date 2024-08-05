@@ -63,7 +63,6 @@ export default function Footer({ menuItems }: Props) {
 				</div>
 				<div className="mt-16 border-t border-gray-900/10 pt-8 sm:mt-20 md:flex md:items-center md:justify-between lg:mt-24 dark:border-neutral-700">
 					<div className="flex flex-wrap gap-x-6 gap-y-3 md:order-2">
-						<p>위픽레터 | 대표 김태환 | 02-6013-2873 | 성수 HQ: 서울시 성동구 연무장 5길 18</p>
 						{NC_SITE_SETTINGS.site_socials?.map(item => (
 							<a
 								key={item?.name}
@@ -84,6 +83,7 @@ export default function Footer({ menuItems }: Props) {
 							</a>
 						))}
 					</div>
+					<p>위픽레터 | 대표 김태환 | 02-6013-2873 | 성수 HQ: 서울시 성동구 연무장 5길 18</p>
 					<p className="mt-8 text-[13px] leading-5 text-gray-500 md:order-1 md:mt-0">
 						{NC_SITE_SETTINGS.site_footer?.all_rights_reserved_text}
 					</p>
