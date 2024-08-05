@@ -61,6 +61,7 @@ export default function Footer({ menuItems }: Props) {
 						<WidgetAddSubscriberForm />
 					</div>
 				</div>
+				
 				<div className="mt-16 border-t border-gray-900/10 pt-8 sm:mt-20 md:flex md:items-center md:justify-between lg:mt-24 dark:border-neutral-700">
 					<div className="flex flex-wrap gap-x-6 gap-y-3 md:order-2" style={{ flex: 1 }}>
 						{NC_SITE_SETTINGS.site_socials?.map(item => (
@@ -87,13 +88,13 @@ export default function Footer({ menuItems }: Props) {
 						</p>
 					</div>
 					<div style={{ flex: 1 }}>
-						<div style={{lineHeight: 2.0, display: 'flex'}}>\
-							<span>위픽레터 소개</span>
-							<span>에디터 신청</span>
-							<span>제휴문의</span>
-							<span>구독하기</span>
-							<span>불편접수</span>
-							<span>공지사항</span>
+						<div style={{lineHeight: 2.0, display: 'flex'}}>
+							<span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">위픽레터 소개</span>
+							<span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">에디터 신청</span>
+							<span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">제휴문의</span>
+							<span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">구독하기</span>
+							<span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">불편접수</span>
+							<span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">공지사항</span>
 						</div>
 						<p className="mt-8 text-[13px] leading-5 text-gray-500 md:order-1 md:mt-0" style={{lineHeight: 1.6}}>위픽레터 | 대표 김태환 | 02-6013-2873 | 성수 HQ: 서울시 성동구 연무장 5길 18<br />
 							유럽 BR. Narva mnt 5, 10117 Tallinn, Estonia | letter@wepick.kr<br />
