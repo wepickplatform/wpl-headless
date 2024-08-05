@@ -258,7 +258,7 @@ export default {
 	Help: '도움말',
 	Helps: '도움말',
 	'Log out': '로그아웃',
-	'Type to search...': '검색하려면 입력하세요...',
+	'Type to search...': '검색',
 	'Newtest to oldest': '최신순',
 	'Oldest to newest': '오래된 순',
 	'A to Z': 'A에서 Z까지',
@@ -345,7 +345,7 @@ export default {
 		'Post options': '게시물 옵션',
 		'Post format': '게시물 형식',
 		'Gallery images': '갤러리 이미지',
-		'Write an excerpt (optional)': '발췌문 작성 (선택 사항)',
+		'Write an excerpt (optional)': '요약 내용',
 		'Schedule Publication': '게시 일정',
 		'Video URL (Youtube, Vimeo, mp4 ... )':
 			'비디오 URL (유튜브, 비메오, mp4 ...)',
