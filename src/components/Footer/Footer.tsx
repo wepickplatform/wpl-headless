@@ -88,7 +88,7 @@ export default function Footer({ menuItems }: Props) {
 						</p>
 					</div>
 					<div style={{ flex: 1 }}>
-						<div style={{lineHeight: 2.0, display: 'flex'}}>
+						<div style={{lineHeight: 2.0, display: 'flex', gap: '10px', marginBottom: '10px'}}>
 							<span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">위픽레터 소개</span>
 							<span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">에디터 신청</span>
 							<span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">제휴문의</span>
