@@ -216,6 +216,7 @@ export async function getStaticPaths() {
     fallback: 'blocking',
   }
 }
+
 export function getStaticProps(ctx: GetStaticPropsContext) {
   return getNextStaticProps(ctx, {
     Page,
@@ -223,9 +224,9 @@ export function getStaticProps(ctx: GetStaticPropsContext) {
   })
 }
 
-Page.variables = ({ params }) => {
+Page.variables = (context: GetStaticPropsContext) => {
   return {
-    search: params?.search?.[0] || '',
+    search: context.params?.search?.[0] || '',
     first: GET_USERS_FIRST_COMMON,
     headerLocation: PRIMARY_LOCATION,
     footerLocation: FOOTER_LOCATION,
