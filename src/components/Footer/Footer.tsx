@@ -87,8 +87,11 @@ export default function Footer({ menuItems }: Props) {
 						</p>
 					</div>
 					<div>
-					<p className="mt-8 text-[13px] leading-5 text-gray-500 md:order-1 md:mt-0">위픽레터 | 대표 김태환 | 02-6013-2873 | 성수 HQ: 서울시 성동구 연무장 5길 18</p>
-					<p className="mt-8 text-[13px] leading-5 text-gray-500 md:order-1 md:mt-0">{NC_SITE_SETTINGS.site_footer?.all_rights_reserved_text}</p>
+						<p className="mt-8 text-[13px] leading-5 text-gray-500 md:order-1 md:mt-0">위픽레터 | 대표 김태환 | 02-6013-2873 | 성수 HQ: 서울시 성동구 연무장 5길 18<br />
+							유럽 BR. Narva mnt 5, 10117 Tallinn, Estonia | letter@wepick.kr<br />
+							인터넷신문등록번호 : 서울 아 52632 | 발행·편집인 : 이재훈 | 등록(발행)일 : 2019.10.01<br />
+							청소년보호책임자 : 이재훈</p>
+						<p className="mt-8 text-[13px] leading-5 text-gray-500 md:order-1 md:mt-0">{NC_SITE_SETTINGS.site_footer?.all_rights_reserved_text}</p>
 					</div>
 				</div>
 			</div>
