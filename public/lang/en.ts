@@ -273,7 +273,7 @@ export default {
 	'Other categories': '기타 카테고리',
 	'Other tags': '기타 태그',
 	'Discover other categories': '다른 카테고리 발견',
-	Articles: '기사',
+	Articles: '콘텐츠',
 	Authors: '저자',
 	'Favorites list': '즐겨찾기 목록',
 	Bookmarks: '북마크',
