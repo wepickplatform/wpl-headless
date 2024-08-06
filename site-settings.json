@@ -173,7 +173,7 @@
 			{
 				"name": "Show_Right_Sidebar",
 				"label": "Show Right Sidebar",
-				"enable": true
+				"enable": false
 			}
 		]
 	},
