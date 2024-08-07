@@ -66,7 +66,7 @@ export default function Footer({ menuItems }: Props) {
 						</div>
 						<p className="mt-8 text-[13px] leading-5 text-gray-500 md:order-1 md:mt-0" style={{lineHeight: 1.6}}>위픽레터 | 대표 김태환 | 02-6013-2873 | 성수 HQ: 서울시 성동구 연무장 5길 18<br />
 							유럽 BR. Narva mnt 5, 10117 Tallinn, Estonia | letter@wepick.kr<br />
-							인터넷신문등록번호 : 서울 아 52632 | 발행·편집인 : 이재훈 | 등록(발행)일 : 2019.10.01<br />
+							인터넷신문등록번호 : 서울 아 52632 | 발행 편집인 : 이재훈 | 등록(발행)일 : 2019.10.01<br />
 							청소년보호책임자 : 이재훈</p><br />
 						<p className="mt-8 text-[13px] leading-5 text-gray-500 md:order-1 md:mt-0">{NC_SITE_SETTINGS.site_footer?.all_rights_reserved_text}</p>
 					</div>
@@ -91,7 +91,7 @@ export default function Footer({ menuItems }: Props) {
 							</a>
 						))}
 						<p className="mt-8 text-[13px] leading-5 text-gray-500 md:order-1 md:mt-0" style={{lineHeight: 1.6}}>
-						<b>마케터 라이프 사이클 플랫폼 위픽을 만드는 사람들</b> <br />고병우·권상현·김단아·김동규·김소연·김태환·김현철·김효경·김희지·박준후·서정완·손인범·신영규·엄두호·오지윤·이광희·이상용·이재광·이정수·이정하·임동규·장진광·정진서·조희연·최신일·최윤성·한광복·허성덕·홍문화·김정우·이홍래·박장순·박희은
+						<b>마케터 라이프 사이클 플랫폼 위픽을 만드는 사람들</b> <br />고병우 권상현 김단아 김동규 김소연 김태환 김현철 김효경 김희지 박준후 서정완 손인범 신영규 엄두호 오지윤 이광희 이상용 이재광 이정수 이정하 임동규 장진광 정진서 조희연 최신일 최윤성 한광복 허성덕 홍문화 김정우 이홍래 박장순 박희은
 						</p>
 					</div>
 				</div>
