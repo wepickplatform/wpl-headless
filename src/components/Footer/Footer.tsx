@@ -57,12 +57,12 @@ export default function Footer({ menuItems }: Props) {
 				<div className="md:flex md:items-center md:justify-between dark:border-neutral-700" style={{marginTop:'2rem'}}>
 					<div style={{ flex: 1 }}>
 						<div style={{lineHeight: 2.0, display: 'flex', gap: '10px', marginBottom: '10px'}}>
-							<span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">위픽레터 소개</span>
-							<span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">에디터 신청</span>
-							<span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">제휴문의</span>
-							<span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">구독하기</span>
-							<span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">불편접수</span>
-							<span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">공지사항</span>
+							<a href="/notice/4383281/" target="_blank"><span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">위픽레터 소개</span></a>
+							<a href="/notice/4377775/" target="_blank"><span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">에디터 신청</span>
+							<a href="/desk/quote/" target="_blank"><span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">제휴문의</span>
+							<a href="/notice/4383281/" target="_blank"><span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">구독하기</span>
+							<a href="/notice/4383281/" target="_blank"><span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">불편접수</span>
+							<a href="/category/notice/" target="_blank"><span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">공지사항</span>
 						</div>
 						<p className="mt-8 text-[13px] leading-5 text-gray-500 md:order-1 md:mt-0" style={{lineHeight: 1.6}}>위픽레터 | 대표 김태환 | 02-6013-2873 | 성수 HQ: 서울시 성동구 연무장 5길 18<br />
 							유럽 BR. Narva mnt 5, 10117 Tallinn, Estonia | letter@wepick.kr<br />
