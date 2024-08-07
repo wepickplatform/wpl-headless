@@ -53,7 +53,7 @@ export default function Footer({ menuItems }: Props) {
 			<h2 id="footer-heading" className="sr-only">
 				Footer
 			</h2>
-			<div className="mx-auto max-w-7xl px-6 pb-8 sm:pt-24 lg:px-8 lg:pt-28">
+			<div className="mx-auto max-w-7xl px-6 pb-8 lg:pt-28" style={{paddingTop:'2rem'}}>
 				<div className="sm:mt-20 md:flex md:items-center md:justify-between lg:mt-24 dark:border-neutral-700">
 					<div style={{ flex: 1 }}>
 						<div style={{lineHeight: 2.0, display: 'flex', gap: '10px', marginBottom: '10px'}}>
