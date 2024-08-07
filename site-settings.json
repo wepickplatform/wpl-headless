@@ -256,7 +256,7 @@
   "document_page": {
 	"enable": true,
     "uri": "/documents",
-    "title": "Documents",
+    "title": "공지사항",
     "sub_title": "Read and share new perspectives on just about any topic. Everyone’s welcome."
   },
   "cookies_policy_page": {
