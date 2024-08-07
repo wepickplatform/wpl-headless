@@ -29,7 +29,7 @@
   },
 
   "top_category_section": {
-    "enable": true,
+    "enable": false,
     "title": "Discover top 10 categories",
     "sub_title": "Let's explore the most popular categories"
   },
