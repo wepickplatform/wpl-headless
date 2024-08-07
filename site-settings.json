@@ -179,15 +179,15 @@
 	},
 
   "resetPassword_page": {
-    "title": "Lost your password?",
-    "sub_title": "Enter your email below to reset your password.",
+    "title": "비밀번호 찾기",
+    "sub_title": "비밀번호 재설정을 위해 이메일을 입력해주세요.",
     "blockquote": {
       "text": "This theme has saved me countless hours of work and helped me deliver stunning designs to my clients faster than ever before.",
       "author": "Chis agency"
     }
   },
   "signUp_page": {
-    "title": "Create an account",
+    "title": "회원가입",
     "sub_title": "Enter your email below to create your account.",
     "blockquote": {
       "text": "This theme has saved me countless hours of work and helped me deliver stunning designs to my clients faster than ever before.",
@@ -196,8 +196,8 @@
   },
 
   "signIn_page": {
-    "title": "Sign in to your account",
-    "sub_title": "Enter your email below to sign in to your account.",
+    "title": "로그인",
+    "sub_title": "이메일",
     "blockquote": {
       "text": "This theme has saved me countless hours of work and helped me deliver stunning designs to my clients faster than ever before.",
       "author": "Chis agency"
@@ -267,7 +267,7 @@
 		"title": "Privacy Policy"
 	},
   "empty_state": {
-    "title": "No results found.",
-    "description": "We couldn’t find any results. Try for something else."
+    "title": "검색 결과가 없습니다.",
+    "description": "다른 검색어를 입력해주세요."
   }
 }
