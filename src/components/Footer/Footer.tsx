@@ -54,7 +54,7 @@ export default function Footer({ menuItems }: Props) {
 				Footer
 			</h2>
 			<div className="mx-auto max-w-7xl px-6 pb-8 lg:pt-28" style={{paddingTop:'2rem'}}>
-				<div className="sm:mt-20 md:flex md:items-center md:justify-between lg:mt-24 dark:border-neutral-700">
+				<div className="md:flex md:items-center md:justify-between dark:border-neutral-700" style={{marginTop:'2rem'}}>
 					<div style={{ flex: 1 }}>
 						<div style={{lineHeight: 2.0, display: 'flex', gap: '10px', marginBottom: '10px'}}>
 							<span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">위픽레터 소개</span>
