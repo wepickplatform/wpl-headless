@@ -128,12 +128,8 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 				<div className="container space-y-16 py-10 sm:space-y-20 lg:space-y-28 lg:pb-28 lg:pt-20">
 					<div className="space-y-14">
 						<header>
-							<div className="mb-2 flex items-center gap-2 text-sm font-medium text-neutral-500">
-								<UsersIcon className="h-5 w-5" />
-								<span className="">{T['Explore']}</span>
-							</div>
 							<h1 className="block text-2xl font-semibold capitalize sm:text-3xl lg:text-4xl">
-								{T['Authors']}
+								커뮤니티
 							</h1>
 						</header>
 
