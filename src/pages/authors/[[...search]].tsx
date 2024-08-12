@@ -111,4 +111,4 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 };
 
 export default Page;
-default Page;
+
