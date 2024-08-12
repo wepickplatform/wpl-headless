@@ -18,9 +18,10 @@ import PageLayout from '@/container/PageLayout'
 import errorHandling from '@/utils/errorHandling'
 import getTrans from '@/utils/getTrans'
 import { UsersIcon } from '@heroicons/react/24/outline'
-import { DocumentNode } from '@apollo/client'
+import { TypedDocumentNode } from '@apollo/client'
+import { AuthorsPageQueryGetUsersBySearchQuery, AuthorsPageQueryGetUsersBySearchQueryVariables } from '@/__generated__/graphql'
 
-const QUERY_GET_USERS_BY_SEARCH_ON_SEARCH_PAGE: DocumentNode = gql(` 
+const QUERY_GET_USERS_BY_SEARCH_ON_SEARCH_PAGE: TypedDocumentNode<AuthorsPageQueryGetUsersBySearchQuery, AuthorsPageQueryGetUsersBySearchQueryVariables> = gql(` 
   query queryGetUsersBySearchOnSearchPage(
     $first: Int
     $search: String
