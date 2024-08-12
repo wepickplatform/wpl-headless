@@ -1,11 +1,6 @@
 import { GetStaticPropsContext } from 'next'
 import { FaustPage, getNextStaticProps } from '@faustwp/core'
 import { gql } from '@/__generated__'
-import {
-	NcgeneralSettingsFieldsFragmentFragment,
-	AuthorsPageQueryGetUsersBySearchQuery as QueryGetUsersBySearchQuery,
-	
-} from '@/__generated__/graphql'
 import { GET_USERS_FIRST_COMMON } from '@/contains/contants'
 import React from 'react'
 import ButtonPrimary from '@/components/Button/ButtonPrimary'
@@ -21,7 +16,13 @@ import getTrans from '@/utils/getTrans'
 import { UsersIcon } from '@heroicons/react/24/outline'
 import { TypedDocumentNode } from '@apollo/client'
 
-const QUERY_GET_USERS_BY_SEARCH_ON_SEARCH_PAGE: TypedDocumentNode<QueryGetUsersBySearchQuery, AuthorsPageQueryGetUsersBySearchQueryVariables> = gql(`
+import {
+	NcgeneralSettingsFieldsFragmentFragment,
+	AuthorsPageQueryGetUsersBySearchQuery as QueryGetUsersBySearchQuery,
+	AuthorsPageQueryGetUsersBySearchQueryVariables,
+} from '@/__generated__/graphql'
+
+const QUERY_GET_USERS_BY_SEARCH_ON_SEARCH_PAGE = gql(`
   query queryGetUsersBySearchOnSearchPage(
     $first: Int
     $search: String
