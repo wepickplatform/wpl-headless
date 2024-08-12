@@ -17,9 +17,9 @@ import { UsersIcon } from '@heroicons/react/24/outline'
 import { TypedDocumentNode } from '@apollo/client'
 
 import {
-	NcgeneralSettingsFieldsFragmentFragment,
-	AuthorsPageQueryGetUsersBySearchQuery as QueryGetUsersBySearchQuery,
-	AuthorsPageQueryGetUsersBySearchQueryVariables,
+  NcgeneralSettingsFieldsFragmentFragment,
+  AuthorsPageQuery as QueryGetUsersBySearchQuery, // 여기를 확인하고 수정
+  AuthorsPageQueryVariables as QueryGetUsersBySearchQueryVariables,
 } from '@/__generated__/graphql'
 
 const QUERY_GET_USERS_BY_SEARCH_ON_SEARCH_PAGE = gql(`
@@ -40,7 +40,7 @@ const QUERY_GET_USERS_BY_SEARCH_ON_SEARCH_PAGE = gql(`
   }
 `)
 
-const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
+const Page: FaustPage<QueryGetUsersBySearchQuery> = (props) => {
   const router = useRouter()
   const initUsers = props.data?.users?.nodes
   const initPageInfo = props.data?.users?.pageInfo
