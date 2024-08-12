@@ -61,8 +61,8 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
         variables: {
             search,
             first: GET_USERS_FIRST_COMMON,
-            headerLocation: MenuLocationEnum.PRIMARY, // 수정된 부분
-            footerLocation: MenuLocationEnum.FOOTER, // 수정된 부분
+            headerLocation: MenuLocationEnum.Primary, // 수정된 부분
+            footerLocation: MenuLocationEnum.Footer, // 수정된 부분
         },
         onError: (error) => {
             errorHandling(error);
@@ -76,8 +76,8 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
                     after: getUsersBySearchResult.data?.users?.pageInfo?.endCursor,
                     search,
                     first: GET_USERS_FIRST_COMMON,
-                    headerLocation: MenuLocationEnum.PRIMARY, // 수정된 부분
-                    footerLocation: MenuLocationEnum.FOOTER, // 수정된 부분
+                    headerLocation: MenuLocationEnum.Primary, // 수정된 부분
+                    footerLocation: MenuLocationEnum.Footer, // 수정된 부분
                 },
             });
         }
@@ -111,3 +111,4 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 };
 
 export default Page;
+default Page;
