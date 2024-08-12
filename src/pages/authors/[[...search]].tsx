@@ -19,7 +19,7 @@ import errorHandling from '@/utils/errorHandling'
 import getTrans from '@/utils/getTrans'
 import { UsersIcon } from '@heroicons/react/24/outline'
 import { TypedDocumentNode } from '@apollo/client'
-import { AuthorsPageQueryGetUsersBySearchQuery, AuthorsPageQueryGetUsersBySearchQueryVariables } from '@/__generated__/graphql'
+import { AuthorsPageQueryGetUsersBySearchQuery } from '@/__generated__/graphql'
 
 const QUERY_GET_USERS_BY_SEARCH_ON_SEARCH_PAGE: TypedDocumentNode<AuthorsPageQueryGetUsersBySearchQuery, AuthorsPageQueryGetUsersBySearchQueryVariables> = gql(` 
   query queryGetUsersBySearchOnSearchPage(
