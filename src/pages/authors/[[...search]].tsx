@@ -1,30 +1,24 @@
-import { GetStaticPropsContext } from 'next'
-import { FaustPage, getNextStaticProps } from '@faustwp/core'
-import { gql } from '@apollo/client'
-import {
-  NcgeneralSettingsFieldsFragmentFragment,
-  AuthorsPageQueryGetUsersBySearchQuery,
-} from '@/__generated__/graphql'
-import { GET_USERS_FIRST_COMMON } from '@/contains/contants'
-import React from 'react'
-import ButtonPrimary from '@/components/Button/ButtonPrimary'
-import Empty from '@/components/Empty'
-import { useRouter } from 'next/router'
-import CardAuthorBox from '@/components/CardAuthorBox/CardAuthorBox'
-import { getUserDataFromUserCardFragment } from '@/utils/getUserDataFromUserCardFragment'
-import { useLazyQuery } from '@apollo/client'
-import { FOOTER_LOCATION, PRIMARY_LOCATION } from '@/contains/menu'
-import PageLayout from '@/container/PageLayout'
-import errorHandling from '@/utils/errorHandling'
-import getTrans from '@/utils/getTrans'
-import { UsersIcon } from '@heroicons/react/24/outline'
+import { GetStaticPropsContext } from 'next';
+import { FaustPage, getNextStaticProps } from '@faustwp/core';
+import { gql } from '@apollo/client';
+import { GET_USERS_FIRST_COMMON } from '@/contains/contants';
+import React from 'react';
+import ButtonPrimary from '@/components/Button/ButtonPrimary';
+import Empty from '@/components/Empty';
+import { useRouter } from 'next/router';
+import CardAuthorBox from '@/components/CardAuthorBox/CardAuthorBox';
+import { useLazyQuery } from '@apollo/client';
+import PageLayout from '@/container/PageLayout';
+import errorHandling from '@/utils/errorHandling';
+import getTrans from '@/utils/getTrans';
+import { UsersIcon } from '@heroicons/react/24/outline';
 
-const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
-  const router = useRouter()
-  const initUsers = props.data?.users?.nodes
-  const initPageInfo = props.data?.users?.pageInfo
-  const search = router.query.search?.[0] || ''
-  const T = getTrans()
+const Page: FaustPage = (props) => {
+  const router = useRouter();
+  const initUsers = props.data?.users?.edges.map(edge => edge.node) || [];
+  const initPageInfo = props.data?.users?.pageInfo;
+  const search = router.query.search?.[0] || '';
+  const T = getTrans();
 
   const [getUsersBySearch, getUsersBySearchResult] = useLazyQuery(
     gql(` 
@@ -33,10 +27,21 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
         $search: String
         $after: String
       ) {
-        users(first: $first, after: $after, where: { search: $search, role: MARKETER }) {  // role을 필터로 사용
-          nodes {
-            ...NcmazFcUserFullFields
-            role  // role 필드를 추가합니다.
+        users(first: $first, after: $after, where: { search: $search }) {
+          edges {
+            node {
+              id
+              firstName
+              lastName
+              roles {
+                edges {
+                  node {
+                    id
+                    name
+                  }
+                }
+              }
+            }
           }
           pageInfo {
             endCursor
@@ -57,10 +62,10 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
         first: GET_USERS_FIRST_COMMON,
       },
       onError: (error) => {
-        errorHandling(error)
+        errorHandling(error);
       },
     },
-  )
+  );
 
   const handleClickShowMore = () => {
     if (!getUsersBySearchResult.called) {
@@ -69,7 +74,7 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
           search,
           after: initPageInfo?.endCursor,
         },
-      })
+      });
     }
 
     getUsersBySearchResult.fetchMore({
@@ -78,41 +83,46 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
         after: getUsersBySearchResult.data?.users?.pageInfo.endCursor,
       },
       updateQuery: (prev, { fetchMoreResult }) => {
-        if (!fetchMoreResult || !fetchMoreResult.users?.nodes) {
-          return prev
+        if (!fetchMoreResult || !fetchMoreResult.users?.edges) {
+          return prev;
         }
 
         return {
           ...prev,
           users: {
             ...prev.users,
-            nodes: [
-              ...(prev.users?.nodes || []),
-              ...(fetchMoreResult.users?.nodes || []),
+            edges: [
+              ...(prev.users?.edges || []),
+              ...(fetchMoreResult.users?.edges || []),
             ],
             pageInfo: fetchMoreResult.users?.pageInfo,
           },
-        }
+        };
       },
-    })
-  }
+    });
+  };
 
-  // 기존의 사용자 필터링 및 페이징 처리 로직
-  let currentUsers = initUsers || []
-  let hasNextPage = initPageInfo?.hasNextPage
-  let loading = false
+  // 클라이언트 측에서 roles가 'MARKETER'인 사용자만 필터링
+  let currentUsers = initUsers.filter(user =>
+    user.roles.edges.some(roleEdge => roleEdge.node.name === 'MARKETER')
+  );
+
+  let hasNextPage = initPageInfo?.hasNextPage;
+  let loading = false;
 
   if (getUsersBySearchResult.called) {
     currentUsers = [
-      ...(initUsers || []),
-      ...(getUsersBySearchResult.data?.users?.nodes || []),
-    ]
+      ...currentUsers,
+      ...(getUsersBySearchResult.data?.users?.edges.map(edge => edge.node) || []).filter(user =>
+        user.roles.edges.some(roleEdge => roleEdge.node.name === 'MARKETER')
+      ),
+    ];
 
     hasNextPage =
       getUsersBySearchResult.loading ||
       getUsersBySearchResult.data?.users?.pageInfo.hasNextPage ||
-      false
-    loading = getUsersBySearchResult.loading
+      false;
+    loading = getUsersBySearchResult.loading;
   }
 
   return (
@@ -121,9 +131,7 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
       footerMenuItems={props.data?.footerMenuItems?.nodes || []}
       pageFeaturedImageUrl={null}
       pageTitle={T['Authors']}
-      generalSettings={
-        props.data?.generalSettings as NcgeneralSettingsFieldsFragmentFragment
-      }
+      generalSettings={props.data?.generalSettings}
     >
       <div className="nc-PageExploreAuthors">
         <div className="container space-y-16 py-10 sm:space-y-20 lg:space-y-28 lg:pb-28 lg:pt-20">
@@ -140,9 +148,9 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
                 <Empty />
               ) : (
                 <div className="mt-8 grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:mt-12 lg:grid-cols-3 xl:grid-cols-5">
-                  {(currentUsers || []).map((user) => (
+                  {currentUsers.map((user) => (
                     <CardAuthorBox
-                      key={getUserDataFromUserCardFragment(user).databaseId}
+                      key={user.id}
                       author={user}
                     />
                   ))}
@@ -168,21 +176,21 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
         </div>
       </div>
     </PageLayout>
-  )
-}
+  );
+};
 
 export async function getStaticPaths() {
   return {
     paths: [],
     fallback: 'blocking',
-  }
+  };
 }
 
 export function getStaticProps(ctx: GetStaticPropsContext) {
   return getNextStaticProps(ctx, {
     Page,
     revalidate: 900,
-  })
+  });
 }
 
 Page.variables = ({ params }) => {
@@ -191,15 +199,26 @@ Page.variables = ({ params }) => {
     first: GET_USERS_FIRST_COMMON,
     headerLocation: PRIMARY_LOCATION,
     footerLocation: FOOTER_LOCATION,
-  }
-}
+  };
+};
 
 Page.query = gql(`
   query AuthorsPageQueryGetUsersBySearch ( $first: Int,  $search: String = "", $after: String, $headerLocation: MenuLocationEnum!, $footerLocation: MenuLocationEnum! )  {
-    users(first: $first, after: $after, where: {search: $search, role: MARKETER}) {
-        nodes {
-             ...NcmazFcUserFullFields
-             role
+    users(first: $first, after: $after, where: {search: $search}) {
+        edges {
+          node {
+             id
+             firstName
+             lastName
+             roles {
+               edges {
+                 node {
+                   id
+                   name
+                 }
+               }
+             }
+          }
         }
         pageInfo {
           endCursor
@@ -208,20 +227,21 @@ Page.query = gql(`
     }
    # common query for all page 
    generalSettings {
-      ...NcgeneralSettingsFieldsFragment
+      title
     }
     primaryMenuItems: menuItems(where: { location:  $headerLocation  }, first: 80) {
       nodes {
-        ...NcPrimaryMenuFieldsFragment
+        id
+        label
       }
     }
     footerMenuItems: menuItems(where: { location:  $footerLocation  }, first: 50) {
       nodes {
-        ...NcFooterMenuFieldsFragment
+        id
+        label
       }
     }
-    # end common query
   }
-`)
+`);
 
-export default Page
+export default Page;
