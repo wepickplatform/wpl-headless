@@ -1,9 +1,9 @@
 import { GetStaticPropsContext } from 'next'
 import { FaustPage, getNextStaticProps } from '@faustwp/core'
-import { gql } from '@/__generated__'
+import { gql } from '@apollo/client'
 import {
-	NcgeneralSettingsFieldsFragmentFragment,
-	AuthorsPageQueryGetUsersBySearchQuery,
+  NcgeneralSettingsFieldsFragmentFragment,
+  AuthorsPageQueryGetUsersBySearchQuery,
 } from '@/__generated__/graphql'
 import { GET_USERS_FIRST_COMMON } from '@/contains/contants'
 import React from 'react'
@@ -20,22 +20,23 @@ import getTrans from '@/utils/getTrans'
 import { UsersIcon } from '@heroicons/react/24/outline'
 
 const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
-	const router = useRouter()
-	const initUsers = props.data?.users?.nodes
-	const initPageInfo = props.data?.users?.pageInfo
-	const search = router.query.search?.[0] || ''
-	const T = getTrans()
+  const router = useRouter()
+  const initUsers = props.data?.users?.nodes
+  const initPageInfo = props.data?.users?.pageInfo
+  const search = router.query.search?.[0] || ''
+  const T = getTrans()
 
-	const [getUsersBySearch, getUsersBySearchResult] = useLazyQuery(
-		gql(` 
+  const [getUsersBySearch, getUsersBySearchResult] = useLazyQuery(
+    gql(` 
       query queryGetUsersBySearchOnSearchPage(
         $first: Int
         $search: String
         $after: String
       ) {
-        users(first: $first, after: $after, where: { search: $search }) {
+        users(first: $first, after: $after, where: { search: $search, role: MARKETER }) {  // role을 필터로 사용
           nodes {
             ...NcmazFcUserFullFields
+            role  // role 필드를 추가합니다.
           }
           pageInfo {
             endCursor
@@ -44,159 +45,161 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
         }
       }
     `),
-		{
-			notifyOnNetworkStatusChange: true,
-			context: {
-				fetchOptions: {
-					method: process.env.NEXT_PUBLIC_SITE_API_METHOD || 'GET',
-				},
-			},
-			variables: {
-				search,
-				first: GET_USERS_FIRST_COMMON,
-			},
-			onError: (error) => {
-				errorHandling(error)
-			},
-		},
-	)
+    {
+      notifyOnNetworkStatusChange: true,
+      context: {
+        fetchOptions: {
+          method: process.env.NEXT_PUBLIC_SITE_API_METHOD || 'GET',
+        },
+      },
+      variables: {
+        search,
+        first: GET_USERS_FIRST_COMMON,
+      },
+      onError: (error) => {
+        errorHandling(error)
+      },
+    },
+  )
 
-	const handleClickShowMore = () => {
-		if (!getUsersBySearchResult.called) {
-			return getUsersBySearch({
-				variables: {
-					search,
-					after: initPageInfo?.endCursor,
-				},
-			})
-		}
+  const handleClickShowMore = () => {
+    if (!getUsersBySearchResult.called) {
+      return getUsersBySearch({
+        variables: {
+          search,
+          after: initPageInfo?.endCursor,
+        },
+      })
+    }
 
-		getUsersBySearchResult.fetchMore({
-			variables: {
-				search,
-				after: getUsersBySearchResult.data?.users?.pageInfo.endCursor,
-			},
-			updateQuery: (prev, { fetchMoreResult }) => {
-				if (!fetchMoreResult || !fetchMoreResult.users?.nodes) {
-					return prev
-				}
+    getUsersBySearchResult.fetchMore({
+      variables: {
+        search,
+        after: getUsersBySearchResult.data?.users?.pageInfo.endCursor,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult || !fetchMoreResult.users?.nodes) {
+          return prev
+        }
 
-				return {
-					...prev,
-					users: {
-						...prev.users,
-						nodes: [
-							...(prev.users?.nodes || []),
-							...(fetchMoreResult.users?.nodes || []),
-						],
-						pageInfo: fetchMoreResult.users?.pageInfo,
-					},
-				}
-			},
-		})
-	}
+        return {
+          ...prev,
+          users: {
+            ...prev.users,
+            nodes: [
+              ...(prev.users?.nodes || []),
+              ...(fetchMoreResult.users?.nodes || []),
+            ],
+            pageInfo: fetchMoreResult.users?.pageInfo,
+          },
+        }
+      },
+    })
+  }
 
-	// data for render
-	let currentUsers = initUsers || []
-	let hasNextPage = initPageInfo?.hasNextPage
-	let loading = false
+  // 기존의 사용자 필터링 및 페이징 처리 로직
+  let currentUsers = initUsers || []
+  let hasNextPage = initPageInfo?.hasNextPage
+  let loading = false
 
-	if (getUsersBySearchResult.called) {
-		currentUsers = [
-			...(initUsers || []),
-			...(getUsersBySearchResult.data?.users?.nodes || []),
-		]
+  if (getUsersBySearchResult.called) {
+    currentUsers = [
+      ...(initUsers || []),
+      ...(getUsersBySearchResult.data?.users?.nodes || []),
+    ]
 
-		hasNextPage =
-			getUsersBySearchResult.loading ||
-			getUsersBySearchResult.data?.users?.pageInfo.hasNextPage ||
-			false
-		loading = getUsersBySearchResult.loading
-	}
+    hasNextPage =
+      getUsersBySearchResult.loading ||
+      getUsersBySearchResult.data?.users?.pageInfo.hasNextPage ||
+      false
+    loading = getUsersBySearchResult.loading
+  }
 
-	return (
-		<PageLayout
-			headerMenuItems={props.data?.primaryMenuItems?.nodes || []}
-			footerMenuItems={props.data?.footerMenuItems?.nodes || []}
-			pageFeaturedImageUrl={null}
-			pageTitle={T['Authors']}
-			generalSettings={
-				props.data?.generalSettings as NcgeneralSettingsFieldsFragmentFragment
-			}
-		>
-			<div className="nc-PageExploreAuthors">
-				<div className="container space-y-16 py-10 sm:space-y-20 lg:space-y-28 lg:pb-28 lg:pt-20">
-					<div className="space-y-14">
-						<header>
-							<h1 className="block text-2xl font-semibold capitalize sm:text-3xl lg:text-4xl">
-								커뮤니티
-							</h1>
-						</header>
+  return (
+    <PageLayout
+      headerMenuItems={props.data?.primaryMenuItems?.nodes || []}
+      footerMenuItems={props.data?.footerMenuItems?.nodes || []}
+      pageFeaturedImageUrl={null}
+      pageTitle={T['Authors']}
+      generalSettings={
+        props.data?.generalSettings as NcgeneralSettingsFieldsFragmentFragment
+      }
+    >
+      <div className="nc-PageExploreAuthors">
+        <div className="container space-y-16 py-10 sm:space-y-20 lg:space-y-28 lg:pb-28 lg:pt-20">
+          <div className="space-y-14">
+            <header>
+              <h1 className="block text-2xl font-semibold capitalize sm:text-3xl lg:text-4xl">
+                커뮤니티
+              </h1>
+            </header>
 
-						<main>
-							{/* LOOP ITEMS */}
-							{!currentUsers.length && !loading ? (
-								<Empty />
-							) : (
-								<div className="mt-8 grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:mt-12 lg:grid-cols-3 xl:grid-cols-5">
-									{(currentUsers || []).map((user) => (
-										<CardAuthorBox
-											key={getUserDataFromUserCardFragment(user).databaseId}
-											author={user}
-										/>
-									))}
-								</div>
-							)}
+            <main>
+              {/* LOOP ITEMS */}
+              {!currentUsers.length && !loading ? (
+                <Empty />
+              ) : (
+                <div className="mt-8 grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:mt-12 lg:grid-cols-3 xl:grid-cols-5">
+                  {(currentUsers || []).map((user) => (
+                    <CardAuthorBox
+                      key={getUserDataFromUserCardFragment(user).databaseId}
+                      author={user}
+                    />
+                  ))}
+                </div>
+              )}
 
-							{/* PAGINATION */}
-							{hasNextPage ? (
-								<div className="mt-12 flex justify-center lg:mt-14">
-									<ButtonPrimary
-										disabled={loading || !currentUsers?.length}
-										loading={loading}
-										onClick={handleClickShowMore}
-									>
-										{T['Show me more']}
-									</ButtonPrimary>
-								</div>
-							) : null}
-						</main>
-					</div>
+              {/* PAGINATION */}
+              {hasNextPage ? (
+                <div className="mt-12 flex justify-center lg:mt-14">
+                  <ButtonPrimary
+                    disabled={loading || !currentUsers?.length}
+                    loading={loading}
+                    onClick={handleClickShowMore}
+                  >
+                    {T['Show me more']}
+                  </ButtonPrimary>
+                </div>
+              ) : null}
+            </main>
+          </div>
 
-					{/* SUBCRIBES */}
-				</div>
-			</div>
-		</PageLayout>
-	)
+          {/* SUBCRIBES */}
+        </div>
+      </div>
+    </PageLayout>
+  )
 }
 
 export async function getStaticPaths() {
-	return {
-		paths: [],
-		fallback: 'blocking',
-	}
+  return {
+    paths: [],
+    fallback: 'blocking',
+  }
 }
+
 export function getStaticProps(ctx: GetStaticPropsContext) {
-	return getNextStaticProps(ctx, {
-		Page,
-		revalidate: 900,
-	})
+  return getNextStaticProps(ctx, {
+    Page,
+    revalidate: 900,
+  })
 }
 
 Page.variables = ({ params }) => {
-	return {
-		search: params?.search?.[0] || '',
-		first: GET_USERS_FIRST_COMMON,
-		headerLocation: PRIMARY_LOCATION,
-		footerLocation: FOOTER_LOCATION,
-	}
+  return {
+    search: params?.search?.[0] || '',
+    first: GET_USERS_FIRST_COMMON,
+    headerLocation: PRIMARY_LOCATION,
+    footerLocation: FOOTER_LOCATION,
+  }
 }
 
 Page.query = gql(`
   query AuthorsPageQueryGetUsersBySearch ( $first: Int,  $search: String = "", $after: String, $headerLocation: MenuLocationEnum!, $footerLocation: MenuLocationEnum! )  {
-    users(first: $first, after: $after, where: {search: $search}) {
+    users(first: $first, after: $after, where: {search: $search, role: MARKETER}) {
         nodes {
              ...NcmazFcUserFullFields
+             role
         }
         pageInfo {
           endCursor
