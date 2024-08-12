@@ -18,48 +18,51 @@ import PageLayout from '@/container/PageLayout'
 import errorHandling from '@/utils/errorHandling'
 import getTrans from '@/utils/getTrans'
 import { UsersIcon } from '@heroicons/react/24/outline'
+import { DocumentNode } from '@apollo/client'
+
+const QUERY_GET_USERS_BY_SEARCH_ON_SEARCH_PAGE: DocumentNode = gql(` 
+  query queryGetUsersBySearchOnSearchPage(
+    $first: Int
+    $search: String
+    $after: String
+  ) {
+    users(first: $first, after: $after, where: { search: $search, role: "marketer" }) {
+      nodes {
+        ...NcmazFcUserFullFields
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+      }
+    }
+  }
+`)
 
 const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
-	const router = useRouter()
-	const initUsers = props.data?.users?.nodes
-	const initPageInfo = props.data?.users?.pageInfo
-	const search = router.query.search?.[0] || ''
-	const T = getTrans()
+  const router = useRouter()
+  const initUsers = props.data?.users?.nodes
+  const initPageInfo = props.data?.users?.pageInfo
+  const search = router.query.search?.[0] || ''
+  const T = getTrans()
 
-	const [getUsersBySearch, getUsersBySearchResult] = useLazyQuery(
-		gql(` 
-      query queryGetUsersBySearchOnSearchPage(
-        $first: Int
-        $search: String
-        $after: String
-      ) {
-        users(first: $first, after: $after, where: { search: $search, roles: "MARKETER" }) {
-          nodes {
-            ...NcmazFcUserFullFields
-          }
-          pageInfo {
-            endCursor
-            hasNextPage
-          }
-        }
-      }
-    `),
-		{
-			notifyOnNetworkStatusChange: true,
-			context: {
-				fetchOptions: {
-					method: process.env.NEXT_PUBLIC_SITE_API_METHOD || 'GET',
-				},
-			},
-			variables: {
-				search,
-				first: GET_USERS_FIRST_COMMON,
-			},
-			onError: (error) => {
-				errorHandling(error)
-			},
-		},
-	)
+  const [getUsersBySearch, getUsersBySearchResult] = useLazyQuery(
+    QUERY_GET_USERS_BY_SEARCH_ON_SEARCH_PAGE,
+    {
+      notifyOnNetworkStatusChange: true,
+      context: {
+        fetchOptions: {
+          method: process.env.NEXT_PUBLIC_SITE_API_METHOD || 'GET',
+        },
+      },
+      variables: {
+        search,
+        first: GET_USERS_FIRST_COMMON,
+      },
+      onError: (error) => {
+        errorHandling(error)
+      },
+    },
+  )
 
 	const handleClickShowMore = () => {
 		if (!getUsersBySearchResult.called) {
