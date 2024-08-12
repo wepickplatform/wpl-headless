@@ -15,6 +15,13 @@ import errorHandling from '@/utils/errorHandling'
 import getTrans from '@/utils/getTrans'
 import { UsersIcon } from '@heroicons/react/24/outline'
 
+interface User {
+  databaseId: string;
+  name: string;
+  avatarUrl?: string;
+  // 추가적인 필드들이 있을 수 있습니다.
+}
+
 const QUERY_GET_USERS_BY_SEARCH_ON_SEARCH_PAGE = gql(`
   query queryGetUsersBySearchOnSearchPage(
     $first: Int
@@ -23,7 +30,10 @@ const QUERY_GET_USERS_BY_SEARCH_ON_SEARCH_PAGE = gql(`
   ) {
     users(first: $first, after: $after, where: { search: $search, role: "marketer" }) {
       nodes {
-        ...NcmazFcUserFullFields
+        databaseId
+        name
+        avatarUrl
+        // 여기에 필요한 필드를 추가합니다.
       }
       pageInfo {
         endCursor
@@ -31,16 +41,19 @@ const QUERY_GET_USERS_BY_SEARCH_ON_SEARCH_PAGE = gql(`
       }
     }
     generalSettings {
-      ...NcgeneralSettingsFieldsFragment
+      title
+      description
     }
     primaryMenuItems: menuItems(where: { location: $headerLocation }, first: 80) {
       nodes {
-        ...NcPrimaryMenuFieldsFragment
+        label
+        url
       }
     }
     footerMenuItems: menuItems(where: { location: $footerLocation }, first: 50) {
       nodes {
-        ...NcFooterMenuFieldsFragment
+        label
+        url
       }
     }
   }
@@ -151,9 +164,9 @@ const Page: FaustPage<any> = (props) => {
                 <Empty />
               ) : (
                 <div className="mt-8 grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:mt-12 lg:grid-cols-3 xl:grid-cols-5">
-                  {currentUsers.map((user) => (
+                  {currentUsers.map((user: User) => (  // 여기서 user의 타입을 명시적으로 지정합니다.
                     <CardAuthorBox
-                      key={getUserDataFromUserCardFragment(user).databaseId}
+                      key={user.databaseId}
                       author={user}
                     />
                   ))}
@@ -212,7 +225,10 @@ Page.query = gql(`
   ) {
     users(first: $first, after: $after, where: { search: $search, role: "marketer" }) {
       nodes {
-        ...NcmazFcUserFullFields
+        databaseId
+        name
+        avatarUrl
+        // 여기에 필요한 필드를 추가합니다.
       }
       pageInfo {
         endCursor
@@ -220,16 +236,19 @@ Page.query = gql(`
       }
     }
     generalSettings {
-      ...NcgeneralSettingsFieldsFragment
+      title
+      description
     }
     primaryMenuItems: menuItems(where: { location: $headerLocation }, first: 80) {
       nodes {
-        ...NcPrimaryMenuFieldsFragment
+        label
+        url
       }
     }
     footerMenuItems: menuItems(where: { location: $footerLocation }, first: 50) {
       nodes {
-        ...NcFooterMenuFieldsFragment
+        label
+        url
       }
     }
   }
