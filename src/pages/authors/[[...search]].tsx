@@ -3,7 +3,7 @@ import { FaustPage, getNextStaticProps } from '@faustwp/core'
 import { gql } from '@/__generated__'
 import {
 	NcgeneralSettingsFieldsFragmentFragment,
-	AuthorsPageQueryGetUsersBySearchQuery,
+	AuthorsPageQueryGetUsersBySearchQuery as QueryGetUsersBySearchQuery,
 	
 } from '@/__generated__/graphql'
 import { GET_USERS_FIRST_COMMON } from '@/contains/contants'
@@ -20,10 +20,6 @@ import errorHandling from '@/utils/errorHandling'
 import getTrans from '@/utils/getTrans'
 import { UsersIcon } from '@heroicons/react/24/outline'
 import { TypedDocumentNode } from '@apollo/client'
-import {
-	NcgeneralSettingsFieldsFragmentFragment,
-	AuthorsPageQueryGetUsersBySearchQuery as QueryGetUsersBySearchQuery, // 이름 변경
-} from '@/__generated__/graphql'
 
 const QUERY_GET_USERS_BY_SEARCH_ON_SEARCH_PAGE: TypedDocumentNode<QueryGetUsersBySearchQuery, AuthorsPageQueryGetUsersBySearchQueryVariables> = gql(`
   query queryGetUsersBySearchOnSearchPage(
