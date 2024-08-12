@@ -15,7 +15,7 @@ import errorHandling from '@/utils/errorHandling'
 import getTrans from '@/utils/getTrans'
 import { UsersIcon } from '@heroicons/react/24/outline'
 import { TypedDocumentNode } from '@graphql-typed-document-node/core';
-import { AuthorsPageQueryGetUsersBySearchQuery, AuthorsPageQueryGetUsersBySearchQueryVariables } from '@/__generated__/graphql';
+import { AuthorsPageQueryGetUsersBySearchQuery, AuthorsPageQueryGetUsersBySearchQueryVariables, MenuLocationEnum } from '@/__generated__/graphql';
 
 // gql 결과를 TypedDocumentNode로 캐스팅
 const GET_USERS_BY_SEARCH_QUERY = gql(`
@@ -44,7 +44,6 @@ const GET_USERS_BY_SEARCH_QUERY = gql(`
     }
 `) as unknown as TypedDocumentNode<AuthorsPageQueryGetUsersBySearchQuery, AuthorsPageQueryGetUsersBySearchQueryVariables>;
 
-
 const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
     const router = useRouter();
     const initUsers = props.data?.users?.nodes;
@@ -62,6 +61,8 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
         variables: {
             search,
             first: GET_USERS_FIRST_COMMON,
+            headerLocation: MenuLocationEnum.PRIMARY_LOCATION,
+            footerLocation: MenuLocationEnum.FOOTER_LOCATION,
         },
         onError: (error) => {
             errorHandling(error);
@@ -73,6 +74,10 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
             getUsersBySearch({
                 variables: {
                     after: getUsersBySearchResult.data?.users?.pageInfo?.endCursor,
+                    search,
+                    first: GET_USERS_FIRST_COMMON,
+                    headerLocation: MenuLocationEnum.PRIMARY_LOCATION,
+                    footerLocation: MenuLocationEnum.FOOTER_LOCATION,
                 },
             });
         }
