@@ -54,7 +54,8 @@ const LoginLayout: FC<Props> = ({
 				{rightBtn.text}
 			</Link>
 			<div className="dark relative hidden h-full flex-col overflow-y-auto border-zinc-800 p-10 text-neutral-100 lg:flex dark:border-r">
-				<div className="absolute inset-0 bg-zinc-900" style={{ backgroundImage: `url('https://booster.wepick.kr/wp-content/uploads/2024/08/login_bg.png')` }} />
+				<div className="absolute inset-0 bg-zinc-900" style={{ backgroundImage: `url('https://booster.wepick.kr/wp-content/uploads/2024/08/login_bg.png')`, backgroundSize: 'cover' }} />
+
 				<div className="dark relative z-20 flex items-center text-lg font-medium">
 					<Logo />
 				</div>
