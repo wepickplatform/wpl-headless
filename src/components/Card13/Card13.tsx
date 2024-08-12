@@ -29,7 +29,7 @@ const Card13: FC<Card13Props> = ({ className = '', post }) => {
 		<div className={`nc-Card13 relative flex justify-between ${className}`}>
 			<div className="flex h-full flex-col py-2">
 				<h2
-					className={`nc-card-title block text-sm font-semibold sm:text-base`}
+					className={`nc-card-title block text-sm font-semibold sm:text-xl`}
 				>
 					<Link
 						dangerouslySetInnerHTML={{ __html: title }}
