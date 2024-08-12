@@ -33,7 +33,7 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
         $search: String
         $after: String
       ) {
-        users(first: $first, after: $after, where: { role: MARKETER }) {
+        users(first: $first, after: $after, where: { role: "MARKETER" }) {
           nodes {
             ...NcmazFcUserFullFields
           }
