@@ -17,8 +17,8 @@ import { UsersIcon } from '@heroicons/react/24/outline'
 import { TypedDocumentNode } from '@graphql-typed-document-node/core';
 import { AuthorsPageQueryGetUsersBySearchQuery, AuthorsPageQueryGetUsersBySearchQueryVariables } from '@/__generated__/graphql';
 
-// 쿼리를 TypedDocumentNode로 정의
-const GET_USERS_BY_SEARCH_QUERY: TypedDocumentNode<AuthorsPageQueryGetUsersBySearchQuery, AuthorsPageQueryGetUsersBySearchQueryVariables> = gql(`
+// gql 결과를 TypedDocumentNode로 캐스팅
+const GET_USERS_BY_SEARCH_QUERY = gql(`
     query queryGetUsersBySearchOnSearchPage(
         $first: Int
         $search: String
@@ -42,7 +42,8 @@ const GET_USERS_BY_SEARCH_QUERY: TypedDocumentNode<AuthorsPageQueryGetUsersBySea
             }
         }
     }
-`);
+`) as unknown as TypedDocumentNode<AuthorsPageQueryGetUsersBySearchQuery, AuthorsPageQueryGetUsersBySearchQueryVariables>;
+
 
 const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
     const router = useRouter();
