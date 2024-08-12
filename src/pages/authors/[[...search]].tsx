@@ -25,16 +25,14 @@ const GET_USERS_BY_SEARCH_QUERY = gql(`
         $after: String
     ) {
         users(first: $first, after: $after, where: { search: $search }) {
-            edges {
-                node {
-                    id
-                    roles {
-                        nodes {
-                            name
-                        }
+            nodes {
+                id
+                roles {
+                    nodes {
+                        name
                     }
-                    ...NcmazFcUserFullFields
                 }
+                ...NcmazFcUserFullFields
             }
             pageInfo {
                 endCursor
@@ -61,8 +59,8 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
         variables: {
             search,
             first: GET_USERS_FIRST_COMMON,
-            headerLocation: MenuLocationEnum.Primary, // 수정된 부분
-            footerLocation: MenuLocationEnum.Footer, // 수정된 부분
+            headerLocation: MenuLocationEnum.Primary,
+            footerLocation: MenuLocationEnum.Footer,
         },
         onError: (error) => {
             errorHandling(error);
@@ -76,17 +74,17 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
                     after: getUsersBySearchResult.data?.users?.pageInfo?.endCursor,
                     search,
                     first: GET_USERS_FIRST_COMMON,
-                    headerLocation: MenuLocationEnum.Primary, // 수정된 부분
-                    footerLocation: MenuLocationEnum.Footer, // 수정된 부분
+                    headerLocation: MenuLocationEnum.Primary,
+                    footerLocation: MenuLocationEnum.Footer,
                 },
             });
         }
     };
 
     // 클라이언트 측에서 필터링
-    const users = getUsersBySearchResult.data?.users?.edges || initUsers || [];
+    const users = getUsersBySearchResult.data?.users?.nodes || initUsers || [];
     const marketers = users.filter(user =>
-        user.node.roles.nodes.some(role => role.name === 'MARKETER')
+        user.roles.nodes.some(role => role.name === 'MARKETER')
     );
 
     return (
@@ -94,8 +92,8 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
             {marketers.length ? (
                 marketers.map((user, index) => (
                     <CardAuthorBox
-                        key={user.node.id || index}
-                        user={getUserDataFromUserCardFragment(user.node)}
+                        key={user.id || index}
+                        user={getUserDataFromUserCardFragment(user)}
                     />
                 ))
             ) : (
@@ -111,4 +109,5 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 };
 
 export default Page;
+
 
