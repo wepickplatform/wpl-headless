@@ -89,19 +89,19 @@
   "search_page": {
 		"recommended_searches": {
 			"enable": true,
-			"title": "Recommended searches",
+			"title": "인기 검색어",
 			"items": [
 				{
-					"title": "Programming",
-					"url": "/search/posts/programming"
+					"title": "마케팅",
+					"url": "/search/posts/마케팅"
 				},
 				{
-					"title": "Design",
-					"url": "/search/posts/design"
+					"title": "팝업스토어",
+					"url": "/search/posts/팝업스토어"
 				},
 				{
-					"title": "Technology",
-					"url": "/search/posts/technology"
+					"title": "AI",
+					"url": "/search/posts/AI"
 				}
 			]
 		},
