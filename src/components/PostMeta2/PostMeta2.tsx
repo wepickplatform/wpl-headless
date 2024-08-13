@@ -83,7 +83,7 @@ const PostMeta2: FC<PostMeta2Props> = ({
 					</span>
 					<span className="mx-2 font-semibold">·</span>
 					<span className="text-neutral-700 dark:text-neutral-300">
-						{ncPostMetaData?.readingTime} min read
+						{ncPostMetaData?.readingTime} 분
 					</span>
 				</div>
 			</div>
