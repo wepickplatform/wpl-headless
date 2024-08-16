@@ -207,6 +207,7 @@ Page.query = gql(`
         nodes {
              ...NcmazFcUserFullFields
 			 capabilities
+    role
         }
         pageInfo {
           endCursor
