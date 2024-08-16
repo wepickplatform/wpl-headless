@@ -36,6 +36,12 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
         users(first: $first, after: $after, where: { search: $search }) {
           nodes {
             ...NcmazFcUserFullFields
+	    			roles {
+   			 nodes {
+       			  name
+	    		  displayName
+			 }
+			}
           }
           pageInfo {
             endCursor
@@ -43,7 +49,7 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
           }
         }
       }
-    `),
+    `), as unknown as DocumentNode;
 		{
 			notifyOnNetworkStatusChange: true,
 			context: {
@@ -208,12 +214,6 @@ Page.query = gql(`
         nodes {
              ...NcmazFcUserFullFields
 			 capabilities
-			roles {
-   			 nodes {
-       			  name
-	    		  displayName
-			 }
-			}
         }
         pageInfo {
           endCursor
