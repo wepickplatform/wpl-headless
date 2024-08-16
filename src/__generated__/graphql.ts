@@ -18454,7 +18454,7 @@ export type AuthorsPageQueryGetUsersBySearchQueryVariables = Exact<{
 
 
 export type AuthorsPageQueryGetUsersBySearchQuery = { __typename?: 'RootQuery', users?: { __typename?: 'RootQueryToUserConnection', nodes: Array<(
-      { __typename?: 'User', capabilities?: Array<string | null> | null }
+      { __typename?: 'User', capabilities?: Array<string | null> | null, roles?: Array<string | null> | null }
       & { ' $fragmentRefs'?: { 'NcmazFcUserFullFieldsFragment': NcmazFcUserFullFieldsFragment } }
     )>, pageInfo: { __typename?: 'RootQueryToUserConnectionPageInfo', endCursor?: string | null, hasNextPage: boolean } } | null, generalSettings?: (
     { __typename?: 'GeneralSettings' }
