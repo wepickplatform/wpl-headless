@@ -17186,7 +17186,8 @@ export enum UserRoleEnum {
   /** User role with specific capabilities */
   Editor = 'EDITOR',
   /** User role with specific capabilities */
-  Subscriber = 'SUBSCRIBER'
+  Subscriber = 'SUBSCRIBER',
+  Marketer = 'MARKETER'
 }
 
 /** Connection between the User type and the Comment type */
