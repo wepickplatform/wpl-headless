@@ -148,12 +148,12 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 									/*console.log(getUsersBySearchResult);*/
 									console.log(user);
 										//if (!user.__typename?.includes('Administrator')) return null
-										/*return (*/
+										return (
 											<CardAuthorBox
 												key={getUserDataFromUserCardFragment(user).databaseId}
 												author={user}
 											/>
-										/*)*/
+										)
 									})}
 								</div>
 							)}
