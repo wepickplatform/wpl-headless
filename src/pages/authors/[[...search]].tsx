@@ -208,6 +208,11 @@ Page.query = gql(`
         nodes {
              ...NcmazFcUserFullFields
 			 capabilities
+    		      roles {  # roles 필드를 추가하여 역할을 가져옵니다.
+        nodes {
+          name
+        }
+      }
         }
         pageInfo {
           endCursor
