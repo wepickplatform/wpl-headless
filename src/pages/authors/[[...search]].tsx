@@ -36,7 +36,11 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
         users(first: $first, after: $after, where: { search: $search }) {
           nodes {
             ...NcmazFcUserFullFields
-	    role
+	    roles {
+        	nodes {
+          		name
+        	}
+      	}
           }
           pageInfo {
             endCursor
