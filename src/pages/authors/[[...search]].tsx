@@ -147,7 +147,7 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 										// if user is not editor, do not show
 									console.log(getUsersBySearchResult);
 									console.log(user);
-										if (!user.name?.includes('위픽')) return null
+										if (!user.__typename?.includes('users')) return null
 										return (
 											<CardAuthorBox
 												key={getUserDataFromUserCardFragment(user).databaseId}
