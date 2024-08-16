@@ -204,7 +204,7 @@ Page.variables = ({ params }) => {
 
 Page.query = gql(`
   query AuthorsPageQueryGetUsersBySearch ( $first: Int,  $search: String = "", $after: String, $headerLocation: MenuLocationEnum!, $footerLocation: MenuLocationEnum! )  {
-    users(first: $first, after: $after, where: {search: $search}) {
+    users(first: $first, after: $after, where: {search: $search, role: MARKETER}) {
         nodes {
              ...NcmazFcUserFullFields
 			 capabilities
