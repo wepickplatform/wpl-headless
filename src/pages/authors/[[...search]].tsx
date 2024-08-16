@@ -145,8 +145,7 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 								<div className="mt-8 grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:mt-12 lg:grid-cols-3 xl:grid-cols-5">
 									{(currentUsers || []).map((user) => {
 										// if user is not editor, do not show
-										console.log(user);
-										if (!user.roles?.includes('marketer')) return null
+										if (!user.capabilities?.includes('editor')) return null
 										return (
 											<CardAuthorBox
 												key={getUserDataFromUserCardFragment(user).databaseId}
@@ -206,12 +205,7 @@ Page.query = gql(`
     users(first: $first, after: $after, where: {search: $search}) {
         nodes {
              ...NcmazFcUserFullFields
-			 capabilities
-			 	    roles {
-        	nodes {
-          		name
-        	}
-      	}
+			 name
         }
         pageInfo {
           endCursor
