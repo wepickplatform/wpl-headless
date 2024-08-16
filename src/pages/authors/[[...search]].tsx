@@ -33,15 +33,9 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
         $search: String
         $after: String
       ) {
-        users(first: $first, after: $after, where: { search: $search }) {
+        users(first: $first, after: $after, where: { search: $search, role: "MARKETER" }) {
           nodes {
             ...NcmazFcUserFullFields
-	    			roles {
-   			 nodes {
-       			  name
-	    		  displayName
-			 }
-			}
           }
           pageInfo {
             endCursor
@@ -49,7 +43,7 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
           }
         }
       }
-    `), as unknown as DocumentNode;
+    `),
 		{
 			notifyOnNetworkStatusChange: true,
 			context: {
