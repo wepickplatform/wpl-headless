@@ -143,12 +143,16 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 								<Empty />
 							) : (
 								<div className="mt-8 grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:mt-12 lg:grid-cols-3 xl:grid-cols-5">
-									{(currentUsers || []).map((user) => (
-										<CardAuthorBox
-											key={getUserDataFromUserCardFragment(user).databaseId}
-											author={user}
-										/>
-									))}
+									{(currentUsers || []).map((user) => {
+										// if user is not editor, do not show
+										if (!user.capabilities?.includes('editor')) return null
+										return (
+											<CardAuthorBox
+												key={getUserDataFromUserCardFragment(user).databaseId}
+												author={user}
+											/>
+										)
+									})}
 								</div>
 							)}
 
@@ -201,6 +205,7 @@ Page.query = gql(`
     users(first: $first, after: $after, where: {search: $search}) {
         nodes {
              ...NcmazFcUserFullFields
+			 capabilities
         }
         pageInfo {
           endCursor
