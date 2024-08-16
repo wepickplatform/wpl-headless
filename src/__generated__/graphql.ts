@@ -17184,7 +17184,7 @@ export enum UserRoleEnum {
   /** User role with specific capabilities */
   Contributor = 'CONTRIBUTOR',
   /** User role with specific capabilities */
-  Editor = 'EDITOR',
+  Editor = 'MARKETER',
   /** User role with specific capabilities */
   Subscriber = 'SUBSCRIBER',
   Marketer = 'MARKETER'
