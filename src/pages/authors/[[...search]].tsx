@@ -36,11 +36,6 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
         users(first: $first, after: $after, where: { search: $search }) {
           nodes {
             ...NcmazFcUserFullFields
-	    roles {
-        	nodes {
-          		name
-        	}
-      	}
           }
           pageInfo {
             endCursor
@@ -212,7 +207,11 @@ Page.query = gql(`
         nodes {
              ...NcmazFcUserFullFields
 			 capabilities
-			 roles
+			 	    roles {
+        	nodes {
+          		name
+        	}
+      	}
         }
         pageInfo {
           endCursor
