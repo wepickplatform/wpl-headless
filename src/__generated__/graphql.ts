@@ -18436,6 +18436,7 @@ export type QueryGetUsersBySearchOnSearchPageQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   search?: InputMaybe<Scalars['String']['input']>;
   after?: InputMaybe<Scalars['String']['input']>;
+  role?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
