@@ -76,7 +76,7 @@ const ArchiveLayout: FC<IArchiveLayoutProps> = ({
 					<div>
 						<div className="flex flex-col md:flex-row md:justify-between">
 							<div className="flex space-x-2.5 rtl:space-x-reverse">
-								<DynamicModalCategories />
+							<!--<DynamicModalCategories />-->
 								<DynamicModalTags />
 							</div>
 							<div className="my-4 block w-full border-b border-neutral-300 md:hidden dark:border-neutral-500" />
