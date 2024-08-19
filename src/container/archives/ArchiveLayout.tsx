@@ -70,13 +70,13 @@ const ArchiveLayout: FC<IArchiveLayoutProps> = ({
 			<div className={`ncmazfc-page-category`}>
 				{/* HEADER */}
 				{children}
-				{/* ====================== END HEADER ====================== */}
+				{/* ====================== END HEADER ====================== <DynamicModalCategories />*/}
 
 				<div className="container space-y-16 pb-16 pt-10 lg:space-y-28 lg:pb-28 lg:pt-20">
 					<div>
 						<div className="flex flex-col md:flex-row md:justify-between">
 							<div className="flex space-x-2.5 rtl:space-x-reverse">
-							/*<DynamicModalCategories />*/
+							
 								<DynamicModalTags />
 							</div>
 							<div className="my-4 block w-full border-b border-neutral-300 md:hidden dark:border-neutral-500" />
