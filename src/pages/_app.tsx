@@ -13,6 +13,8 @@ import { Toaster } from "react-hot-toast";
 import NextNProgress from "nextjs-progressbar";
 import themeJson from "../../theme.json";
 import { GoogleAnalytics } from "nextjs-google-analytics";
+import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const notoSansKr = Noto_Sans_KR({
   // preload: true, 기본값
@@ -26,7 +28,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <GoogleAnalytics trackPageViews />
-
+      <SpeedInsights/>
+      <Analytics/>
       <FaustProvider pageProps={pageProps}>
         <WordPressBlocksProvider
           config={{
