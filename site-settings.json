@@ -228,23 +228,18 @@
 		"my_contact_info": [
 			{
 				"name": "address",
-				"title": "🚀 ADDRESS",
-				"desc": "123 Main Street, New York, NY 10001"
+				"title": "주소",
+				"desc": "서울시 성동구 연무장5길 18, 6층"
 			},
 			{
 				"name": "email",
-				"title": "💌 EMAIL",
-				"desc": "example@example.com"
+				"title": "이메일",
+				"desc": "letter@wepick.kr"
 			},
 			{
 				"name": "phone",
-				"title": "☎️ PHONE",
-				"desc": "+88 123 456 789"
-			},
-			{
-				"name": "working_hours",
-				"title": "🕒 WORKING HOURS",
-				"desc": "Mon - Fri: 9:00 - 19:00"
+				"title": "연락처",
+				"desc": "02-6013-2873"
 			},
 			{
 				"name": "socials",
