@@ -147,6 +147,7 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 								<div className="mt-8 grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:mt-12 lg:grid-cols-3 xl:grid-cols-5">
 									{(currentUsers || []).map((user) => {
 										// if user is not editor, do not show
+									console.log(user)
 										if (!user.capabilities?.includes('marketer_role')) return null
 										return (
 											<CardAuthorBox
@@ -204,7 +205,7 @@ Page.variables = ({ params }) => {
 
 Page.query = gql(`
   query AuthorsPageQueryGetUsersBySearch ( $first: Int,  $search: String = "", $after: String, $headerLocation: MenuLocationEnum!, $footerLocation: MenuLocationEnum! )  {
-    users(first: $first, after: $after, where: {search: "wepick"}) {
+    users(first: $first, after: $after, where: {search: $search}) {
         nodes {
              ...NcmazFcUserFullFields
 			 capabilities
