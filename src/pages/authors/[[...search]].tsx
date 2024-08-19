@@ -18,7 +18,7 @@ import PageLayout from '@/container/PageLayout'
 import errorHandling from '@/utils/errorHandling'
 import getTrans from '@/utils/getTrans'
 import { UsersIcon } from '@heroicons/react/24/outline'
-import { Analytics } from "@vercel/analytics/react"
+
 
 const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 	const router = useRouter()
@@ -125,7 +125,7 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 				props.data?.generalSettings as NcgeneralSettingsFieldsFragmentFragment
 			}
 		>
-			<Analytics/>
+			
 			<div className="nc-PageExploreAuthors">
 				<div className="container space-y-16 py-10 sm:space-y-20 lg:space-y-28 lg:pb-28 lg:pt-20">
 					<div className="space-y-14">
