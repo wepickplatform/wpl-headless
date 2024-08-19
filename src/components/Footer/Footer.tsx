@@ -59,7 +59,7 @@ export default function Footer({ menuItems }: Props) {
 						<div style={{lineHeight: 2.0, display: 'flex', gap: '10px', marginBottom: '10px'}}>
 							<a href="/notice/4383281/" target="_blank"><span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">위픽레터 소개</span></a>
 							<a href="/notice/4377775/" target="_blank"><span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">에디터 신청</span></a>
-							<a href="/desk/quote/" target="_blank"><span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">제휴문의</span></a>
+							<a href="/contact/" target="_blank"><span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">제휴문의</span></a>
 							<a href="/notice/4383281/" target="_blank"><span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">구독하기</span></a>
 							<a href="/notice/4383281/" target="_blank"><span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">불편접수</span></a>
 							<a href="/category/notice/" target="_blank"><span className="mt-8 text-[13px] leading-5 text-black md:order-1 md:mt-0">공지사항</span></a>
