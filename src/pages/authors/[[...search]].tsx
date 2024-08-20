@@ -29,11 +29,14 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 
 	const [getUsersBySearch, getUsersBySearchResult] = useLazyQuery(
 		gql(` 
-      query AuthorsPageQueryGetUsersBySearch ( $first: Int,  $search: String = "", $after: String, $headerLocation: MenuLocationEnum!, $footerLocation: MenuLocationEnum! ) {
+      query queryGetUsersBySearchOnSearchPage(
+        $first: Int
+        $search: String
+        $after: String
+      ) {
         users(first: $first, after: $after, where: { search: $search }) {
           nodes {
             ...NcmazFcUserFullFields
-	    capabilities
           }
           pageInfo {
             endCursor
@@ -145,7 +148,7 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 									{(currentUsers || []).map((user) => {
 										// if user is not editor, do not show
 									console.log(user)
-										if (!user.capabilities?.includes('users')) return null
+										if (!user.capabilities?.includes('administrator')) return null
 										return (
 											<CardAuthorBox
 												key={getUserDataFromUserCardFragment(user).databaseId}
