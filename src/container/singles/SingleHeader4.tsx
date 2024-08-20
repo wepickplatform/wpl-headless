@@ -38,7 +38,7 @@ const SingleHeader4: FC<SingleHeader4Props> = ({
 						categories={categories?.nodes || []}
 					/>
 					<SingleTitle
-						mainClass="text-neutral-900 font-bold text-3xl md:text-4xl md:!leading-[120%] lg:text-3xl 2xl:text-5xl dark:text-neutral-100"
+						mainClass="text-neutral-900 font-bold text-2xl md:text-4xl md:!leading-[120%] lg:text-3xl 2xl:text-5xl dark:text-neutral-100"
 						title={title || ''}
 					/>
 					{!hiddenDesc && (
