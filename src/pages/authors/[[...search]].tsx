@@ -148,7 +148,7 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 									{(currentUsers || []).map((user) => {
 										// if user is not editor, do not show
 									console.log(user)
-										//if (!user.capabilities?.includes('marketer_role')) return null
+										if (!user.capabilities?.includes('users')) return null
 										return (
 											<CardAuthorBox
 												key={getUserDataFromUserCardFragment(user).databaseId}
