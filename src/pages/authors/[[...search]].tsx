@@ -19,7 +19,6 @@ import errorHandling from '@/utils/errorHandling'
 import getTrans from '@/utils/getTrans'
 import { UsersIcon } from '@heroicons/react/24/outline'
 
-
 const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 	const router = useRouter()
 	const initUsers = props.data?.users?.nodes
@@ -125,7 +124,6 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 				props.data?.generalSettings as NcgeneralSettingsFieldsFragmentFragment
 			}
 		>
-			
 			<div className="nc-PageExploreAuthors">
 				<div className="container space-y-16 py-10 sm:space-y-20 lg:space-y-28 lg:pb-28 lg:pt-20">
 					<div className="space-y-14">
@@ -147,8 +145,7 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 								<div className="mt-8 grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:mt-12 lg:grid-cols-3 xl:grid-cols-5">
 									{(currentUsers || []).map((user) => {
 										// if user is not editor, do not show
-									console.log(user)
-										if (!user.capabilities?.includes('administrator')) return null
+										if (!user.capabilities?.includes('editor')) return null
 										return (
 											<CardAuthorBox
 												key={getUserDataFromUserCardFragment(user).databaseId}
