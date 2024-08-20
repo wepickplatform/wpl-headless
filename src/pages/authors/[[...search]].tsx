@@ -29,14 +29,11 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 
 	const [getUsersBySearch, getUsersBySearchResult] = useLazyQuery(
 		gql(` 
-      query queryGetUsersBySearchOnSearchPage(
-        $first: Int
-        $search: String
-        $after: String
-      ) {
+      query AuthorsPageQueryGetUsersBySearch ( $first: Int,  $search: String = "", $after: String, $headerLocation: MenuLocationEnum!, $footerLocation: MenuLocationEnum! ) {
         users(first: $first, after: $after, where: { search: $search }) {
           nodes {
             ...NcmazFcUserFullFields
+	    capabilities
           }
           pageInfo {
             endCursor
