@@ -100,7 +100,7 @@ export function SiteWrapperChild({
 	if (pathname?.startsWith('/ncmaz_for_ncmazfc_preview_blocks')) {
 		return null
 	}
-	
+	/*
 	return (
 		<div>
 			<CookiestBoxPopover />
@@ -108,5 +108,5 @@ export function SiteWrapperChild({
 			<MusicPlayer />
 		</div>
 	)
-
+	*/
 }
