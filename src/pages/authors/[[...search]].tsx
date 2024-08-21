@@ -145,11 +145,19 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 								<div className="mt-8 grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:mt-12 lg:grid-cols-3 xl:grid-cols-5">
 									{(currentUsers || []).map((user) => {
 										// if user is not editor, do not show
-										console.log('User capabilities:', user.capabilities);
-if (!user.capabilities?.includes('marketer')) {
-    console.log('Filtered out:', user);
-    return null;
-}
+    console.log('User capabilities:', user.capabilities);
+
+    // 배열 타입인지 확인
+    if (!Array.isArray(user.capabilities)) {
+        console.error('Capabilities is not an array:', user.capabilities);
+        return null;
+    }
+
+    // "marketer"가 있는지 확인
+    if (!user.capabilities.includes('marketer')) {
+        console.log('Filtered out:', user);
+        return null;
+    }
 										return (
 											<CardAuthorBox
 												key={getUserDataFromUserCardFragment(user).databaseId}
