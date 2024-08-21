@@ -19,7 +19,6 @@ import errorHandling from '@/utils/errorHandling';
 import getTrans from '@/utils/getTrans';
 import { UsersIcon } from '@heroicons/react/24/outline';
 
-// GraphQL 쿼리를 변수로 선언
 const GET_USERS_BY_SEARCH_QUERY = gql`
 	query queryGetUsersBySearchOnSearchPage(
 		$first: Int
@@ -42,7 +41,7 @@ const GET_USERS_BY_SEARCH_QUERY = gql`
 const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 	const router = useRouter();
 	const initUsers = props.data?.users?.nodes || [];
-	const initPageInfo = props.data?.users?.pageInfo || {};
+	const initPageInfo = props.data?.users?.pageInfo || null;  // 변경된 부분
 	const search = router.query.search?.[0] || '';
 	const T = getTrans();
 
@@ -67,7 +66,7 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 			return getUsersBySearch({
 				variables: {
 					search,
-					after: initPageInfo.endCursor,
+					after: initPageInfo?.endCursor,  // Optional Chaining 사용
 				},
 			});
 		}
@@ -75,7 +74,7 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 		getUsersBySearchResult.fetchMore({
 			variables: {
 				search,
-				after: getUsersBySearchResult.data?.users?.pageInfo.endCursor,
+				after: getUsersBySearchResult.data?.users?.pageInfo?.endCursor,  // Optional Chaining 사용
 			},
 			updateQuery: (prev, { fetchMoreResult }) => {
 				if (!fetchMoreResult || !fetchMoreResult.users?.nodes) {
@@ -99,7 +98,7 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 
 	// data for render
 	let currentUsers = initUsers;
-	let hasNextPage = initPageInfo.hasNextPage || false;
+	let hasNextPage = initPageInfo?.hasNextPage || false;
 	let loading = false;
 
 	if (getUsersBySearchResult.called) {
@@ -110,7 +109,7 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 
 		hasNextPage =
 			getUsersBySearchResult.loading ||
-			getUsersBySearchResult.data?.users?.pageInfo.hasNextPage ||
+			getUsersBySearchResult.data?.users?.pageInfo?.hasNextPage ||
 			false;
 		loading = getUsersBySearchResult.loading;
 	}
