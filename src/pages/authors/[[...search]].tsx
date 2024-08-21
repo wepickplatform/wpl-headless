@@ -1,6 +1,6 @@
 import { GetStaticPropsContext } from 'next';
 import { FaustPage, getNextStaticProps } from '@faustwp/core';
-import { gql } from '@/__generated__';
+import { gql } from '@apollo/client';
 import {
 	NcgeneralSettingsFieldsFragmentFragment,
 	AuthorsPageQueryGetUsersBySearchQuery,
@@ -19,6 +19,26 @@ import errorHandling from '@/utils/errorHandling';
 import getTrans from '@/utils/getTrans';
 import { UsersIcon } from '@heroicons/react/24/outline';
 
+// GraphQL 쿼리를 변수로 선언
+const GET_USERS_BY_SEARCH_QUERY = gql`
+	query queryGetUsersBySearchOnSearchPage(
+		$first: Int
+		$search: String
+		$after: String
+	) {
+		users(first: $first, after: $after, where: { search: $search }) {
+			nodes {
+				...NcmazFcUserFullFields
+				capabilities
+			}
+			pageInfo {
+				endCursor
+				hasNextPage
+			}
+		}
+	}
+`;
+
 const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 	const router = useRouter();
 	const initUsers = props.data?.users?.nodes || [];
@@ -26,41 +46,21 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 	const search = router.query.search?.[0] || '';
 	const T = getTrans();
 
-	const [getUsersBySearch, getUsersBySearchResult] = useLazyQuery(
-		gql(` 
-			query queryGetUsersBySearchOnSearchPage(
-				$first: Int
-				$search: String
-				$after: String
-			) {
-				users(first: $first, after: $after, where: { search: $search }) {
-					nodes {
-						...NcmazFcUserFullFields
-						capabilities
-					}
-					pageInfo {
-						endCursor
-						hasNextPage
-					}
-				}
-			}
-		`),
-		{
-			notifyOnNetworkStatusChange: true,
-			context: {
-				fetchOptions: {
-					method: process.env.NEXT_PUBLIC_SITE_API_METHOD || 'GET',
-				},
-			},
-			variables: {
-				search,
-				first: GET_USERS_FIRST_COMMON,
-			},
-			onError: (error) => {
-				errorHandling(error);
+	const [getUsersBySearch, getUsersBySearchResult] = useLazyQuery(GET_USERS_BY_SEARCH_QUERY, {
+		notifyOnNetworkStatusChange: true,
+		context: {
+			fetchOptions: {
+				method: process.env.NEXT_PUBLIC_SITE_API_METHOD || 'GET',
 			},
 		},
-	);
+		variables: {
+			search,
+			first: GET_USERS_FIRST_COMMON,
+		},
+		onError: (error) => {
+			errorHandling(error);
+		},
+	});
 
 	const handleClickShowMore = () => {
 		if (!getUsersBySearchResult.called) {
