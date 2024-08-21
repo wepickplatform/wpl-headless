@@ -1,84 +1,84 @@
-import { GetStaticPropsContext } from 'next';
-import { FaustPage, getNextStaticProps } from '@faustwp/core';
-import { gql } from '@apollo/client';
+import { GetStaticPropsContext } from 'next'
+import { FaustPage, getNextStaticProps } from '@faustwp/core'
+import { gql } from '@/__generated__'
 import {
 	NcgeneralSettingsFieldsFragmentFragment,
 	AuthorsPageQueryGetUsersBySearchQuery,
-} from '@/__generated__/graphql';
-import { GET_USERS_FIRST_COMMON } from '@/contains/contants';
-import React from 'react';
-import ButtonPrimary from '@/components/Button/ButtonPrimary';
-import Empty from '@/components/Empty';
-import { useRouter } from 'next/router';
-import CardAuthorBox from '@/components/CardAuthorBox/CardAuthorBox';
-import { getUserDataFromUserCardFragment } from '@/utils/getUserDataFromUserCardFragment';
-import { useLazyQuery } from '@apollo/client';
-import { FOOTER_LOCATION, PRIMARY_LOCATION } from '@/contains/menu';
-import PageLayout from '@/container/PageLayout';
-import errorHandling from '@/utils/errorHandling';
-import getTrans from '@/utils/getTrans';
-import { UsersIcon } from '@heroicons/react/24/outline';
-
-const GET_USERS_BY_SEARCH_QUERY = gql`
-	query queryGetUsersBySearchOnSearchPage(
-		$first: Int
-		$search: String
-		$after: String
-	) {
-		users(first: $first, after: $after, where: { search: $search }) {
-			nodes {
-				...NcmazFcUserFullFields
-				capabilities
-			}
-			pageInfo {
-				endCursor
-				hasNextPage
-			}
-		}
-	}
-`;
+} from '@/__generated__/graphql'
+import { GET_USERS_FIRST_COMMON } from '@/contains/contants'
+import React from 'react'
+import ButtonPrimary from '@/components/Button/ButtonPrimary'
+import Empty from '@/components/Empty'
+import { useRouter } from 'next/router'
+import CardAuthorBox from '@/components/CardAuthorBox/CardAuthorBox'
+import { getUserDataFromUserCardFragment } from '@/utils/getUserDataFromUserCardFragment'
+import { useLazyQuery } from '@apollo/client'
+import { FOOTER_LOCATION, PRIMARY_LOCATION } from '@/contains/menu'
+import PageLayout from '@/container/PageLayout'
+import errorHandling from '@/utils/errorHandling'
+import getTrans from '@/utils/getTrans'
+import { UsersIcon } from '@heroicons/react/24/outline'
 
 const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
-	const router = useRouter();
-	const initUsers = props.data?.users?.nodes || [];
-	const initPageInfo = props.data?.users?.pageInfo || null;  // 변경된 부분
-	const search = router.query.search?.[0] || '';
-	const T = getTrans();
+	const router = useRouter()
+	const initUsers = props.data?.users?.nodes
+	const initPageInfo = props.data?.users?.pageInfo
+	const search = router.query.search?.[0] || ''
+	const T = getTrans()
 
-	const [getUsersBySearch, getUsersBySearchResult] = useLazyQuery(GET_USERS_BY_SEARCH_QUERY, {
-		notifyOnNetworkStatusChange: true,
-		context: {
-			fetchOptions: {
-				method: process.env.NEXT_PUBLIC_SITE_API_METHOD || 'GET',
+	const [getUsersBySearch, getUsersBySearchResult] = useLazyQuery(
+		gql(` 
+      query queryGetUsersBySearchOnSearchPage(
+        $first: Int
+        $search: String
+        $after: String
+      ) {
+        users(first: $first, after: $after, where: { search: $search }) {
+          nodes {
+            ...NcmazFcUserFullFields
+          }
+          pageInfo {
+            endCursor
+            hasNextPage
+          }
+        }
+      }
+    `),
+		{
+			notifyOnNetworkStatusChange: true,
+			context: {
+				fetchOptions: {
+					method: process.env.NEXT_PUBLIC_SITE_API_METHOD || 'GET',
+				},
+			},
+			variables: {
+				search,
+				first: GET_USERS_FIRST_COMMON,
+			},
+			onError: (error) => {
+				errorHandling(error)
 			},
 		},
-		variables: {
-			search,
-			first: GET_USERS_FIRST_COMMON,
-		},
-		onError: (error) => {
-			errorHandling(error);
-		},
-	});
+	)
 
 	const handleClickShowMore = () => {
 		if (!getUsersBySearchResult.called) {
 			return getUsersBySearch({
 				variables: {
 					search,
-					after: initPageInfo?.endCursor,  // Optional Chaining 사용
+					after: initPageInfo?.endCursor,
 				},
-			});
+			})
 		}
 
 		getUsersBySearchResult.fetchMore({
 			variables: {
 				search,
-				after: getUsersBySearchResult.data?.users?.pageInfo?.endCursor,  // Optional Chaining 사용
+				after: getUsersBySearchResult.data?.users?.pageInfo.endCursor,
 			},
 			updateQuery: (prev, { fetchMoreResult }) => {
 				if (!fetchMoreResult || !fetchMoreResult.users?.nodes) {
-					return prev;
+					return prev
 				}
 
 				return {
@@ -91,27 +91,27 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 						],
 						pageInfo: fetchMoreResult.users?.pageInfo,
 					},
-				};
+				}
 			},
-		});
-	};
+		})
+	}
 
 	// data for render
-	let currentUsers = initUsers;
-	let hasNextPage = initPageInfo?.hasNextPage || false;
-	let loading = false;
+	let currentUsers = initUsers || []
+	let hasNextPage = initPageInfo?.hasNextPage
+	let loading = false
 
 	if (getUsersBySearchResult.called) {
 		currentUsers = [
 			...(initUsers || []),
 			...(getUsersBySearchResult.data?.users?.nodes || []),
-		];
+		]
 
 		hasNextPage =
 			getUsersBySearchResult.loading ||
-			getUsersBySearchResult.data?.users?.pageInfo?.hasNextPage ||
-			false;
-		loading = getUsersBySearchResult.loading;
+			getUsersBySearchResult.data?.users?.pageInfo.hasNextPage ||
+			false
+		loading = getUsersBySearchResult.loading
 	}
 
 	return (
@@ -144,18 +144,14 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 							) : (
 								<div className="mt-8 grid grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:mt-12 lg:grid-cols-3 xl:grid-cols-5">
 									{(currentUsers || []).map((user) => {
-										if (!user.capabilities) {
-											console.log('User without capabilities:', user);
-											return null;
-										}
-										if (!user.capabilities.includes('marketer')) return null;
-						
+										// if user is not editor, do not show
+										if (user.capabilities?.includes('marketer')) return null
 										return (
 											<CardAuthorBox
 												key={getUserDataFromUserCardFragment(user).databaseId}
 												author={user}
 											/>
-										);
+										)
 									})}
 								</div>
 							)}
@@ -174,24 +170,25 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 							) : null}
 						</main>
 					</div>
+
+					{/* SUBCRIBES */}
 				</div>
 			</div>
 		</PageLayout>
-	);
-};
+	)
+}
 
 export async function getStaticPaths() {
 	return {
 		paths: [],
 		fallback: 'blocking',
-	};
+	}
 }
-
 export function getStaticProps(ctx: GetStaticPropsContext) {
 	return getNextStaticProps(ctx, {
 		Page,
 		revalidate: 900,
-	});
+	})
 }
 
 Page.variables = ({ params }) => {
@@ -200,8 +197,8 @@ Page.variables = ({ params }) => {
 		first: GET_USERS_FIRST_COMMON,
 		headerLocation: PRIMARY_LOCATION,
 		footerLocation: FOOTER_LOCATION,
-	};
-};
+	}
+}
 
 Page.query = gql(`
   query AuthorsPageQueryGetUsersBySearch ( $first: Int,  $search: String = "", $after: String, $headerLocation: MenuLocationEnum!, $footerLocation: MenuLocationEnum! )  {
@@ -231,6 +228,6 @@ Page.query = gql(`
     }
     # end common query
   }
-`);
+`)
 
-export default Page;
+export default Page
