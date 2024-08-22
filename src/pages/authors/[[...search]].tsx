@@ -61,40 +61,40 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 		},
 	)
 
-	const handleClickShowMore = () => {
-		if (!getUsersBySearchResult.called) {
-			return getUsersBySearch({
-				variables: {
-					search,
-					after: initPageInfo?.endCursor,
-				},
-			})
-		}
+const handleClickShowMore = () => {
+    if (!getUsersBySearchResult.called) {
+        return getUsersBySearch({
+            variables: {
+                search,
+                after: initPageInfo?.endCursor,
+            },
+        });
+    }
 
-		getUsersBySearchResult.fetchMore({
-			variables: {
-				search,
-				after: getUsersBySearchResult.data?.users?.pageInfo.endCursor,
-			},
-			updateQuery: (prev, { fetchMoreResult }) => {
-				if (!fetchMoreResult || !fetchMoreResult.users?.nodes) {
-					return prev
-				}
+    getUsersBySearchResult.fetchMore({
+        variables: {
+            search,
+            after: getUsersBySearchResult.data?.users?.pageInfo?.endCursor || null,
+        },
+        updateQuery: (prev, { fetchMoreResult }) => {
+            if (!fetchMoreResult || !fetchMoreResult.users?.nodes) {
+                return prev;
+            }
 
-				return {
-					...prev,
-					users: {
-						...prev.users,
-						nodes: [
-							...(prev.users?.nodes || []),
-							...(fetchMoreResult.users?.nodes || []),
-						],
-						pageInfo: fetchMoreResult.users?.pageInfo,
-					},
-				}
-			},
-		})
-	}
+            return {
+                ...prev,
+                users: {
+                    ...prev.users,
+                    nodes: [
+                        ...(prev.users?.nodes || []),
+                        ...(fetchMoreResult.users?.nodes || []),
+                    ],
+                    pageInfo: fetchMoreResult.users?.pageInfo,
+                },
+            };
+        },
+    });
+};
 
 	// data for render
 	let currentUsers = initUsers || []
