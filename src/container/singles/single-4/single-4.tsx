@@ -9,6 +9,10 @@ const SingleType4: FC<Props> = ({ post }) => {
   const { title, content, date, author, databaseId, excerpt, featuredImage } =
     getPostDataFromPostFragment(post || {});
   //
+  
+  if (!postData) {
+    return <div>Loading...</div>; // postData가 없을 경우 로딩 상태를 표시하거나 적절한 대체 UI를 표시
+  }
 
   return (
     <>
