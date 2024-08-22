@@ -147,6 +147,7 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 										// if user is not editor, do not show
 										if (!user.capabilities?.includes('editor')) return null
 										return (
+											console.log(user)
 											<CardAuthorBox
 												key={getUserDataFromUserCardFragment(user).databaseId}
 												author={user}
