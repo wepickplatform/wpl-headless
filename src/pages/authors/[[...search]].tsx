@@ -81,9 +81,12 @@ const handleClickShowMore = () => {
                 return prev;
             }
 
+            // prev.users와 prev.users.nodes가 존재하는지 확인
+            const existingNodes = prev.users?.nodes || [];
+
             // 기존에 불러온 데이터와 중복되지 않도록 새로운 데이터만 추가
             const newNodes = fetchMoreResult.users.nodes.filter(
-                newNode => !prev.users.nodes.some(prevNode => prevNode.databaseId === newNode.databaseId)
+                newNode => !existingNodes.some(prevNode => prevNode.databaseId === newNode.databaseId)
             );
 
             return {
@@ -91,7 +94,7 @@ const handleClickShowMore = () => {
                 users: {
                     ...prev.users,
                     nodes: [
-                        ...prev.users.nodes,
+                        ...existingNodes,
                         ...newNodes,
                     ],
                     pageInfo: fetchMoreResult.users.pageInfo,
@@ -100,6 +103,7 @@ const handleClickShowMore = () => {
         },
     });
 };
+
 
 	// data for render
 	let currentUsers = initUsers || []
