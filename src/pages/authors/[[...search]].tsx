@@ -61,6 +61,7 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
 		},
 	)
 
+
 const handleClickShowMore = () => {
     if (!getUsersBySearchResult.called) {
         return getUsersBySearch({
@@ -81,13 +82,16 @@ const handleClickShowMore = () => {
                 return prev;
             }
 
-            // prev.users와 prev.users.nodes가 존재하는지 확인
+            // 기존에 불러온 데이터와 중복되지 않도록 새로운 데이터만 추가
             const existingNodes = prev.users?.nodes || [];
 
-            // 기존에 불러온 데이터와 중복되지 않도록 새로운 데이터만 추가
-            const newNodes = fetchMoreResult.users.nodes.filter(
-                newNode => !existingNodes.some(prevNode => prevNode.databaseId === newNode.databaseId)
-            );
+            const newNodes = fetchMoreResult.users.nodes.filter(newNode => {
+                const newNodeData = getUserDataFromUserCardFragment(newNode);
+                return !existingNodes.some(prevNode => {
+                    const prevNodeData = getUserDataFromUserCardFragment(prevNode);
+                    return prevNodeData.databaseId === newNodeData.databaseId;
+                });
+            });
 
             return {
                 ...prev,
@@ -103,7 +107,6 @@ const handleClickShowMore = () => {
         },
     });
 };
-
 
 	// data for render
 	let currentUsers = initUsers || []
