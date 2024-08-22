@@ -150,13 +150,11 @@ const Page: FaustPage<AuthorsPageQueryGetUsersBySearchQuery> = (props) => {
     // 배열 타입인지 확인
     if (!Array.isArray(user.capabilities)) {
         console.error('Capabilities is not an array:', user.capabilities);
-        return null;
     }
 
     // "marketer"가 있는지 확인
     if (!user.capabilities.includes('marketer')) {
         console.log('Filtered out:', user);
-        return null;
     }
 										return (
 											<CardAuthorBox
