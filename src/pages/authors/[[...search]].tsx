@@ -81,15 +81,20 @@ const handleClickShowMore = () => {
                 return prev;
             }
 
+            // 기존에 불러온 데이터와 중복되지 않도록 새로운 데이터만 추가
+            const newNodes = fetchMoreResult.users.nodes.filter(
+                newNode => !prev.users.nodes.some(prevNode => prevNode.databaseId === newNode.databaseId)
+            );
+
             return {
                 ...prev,
                 users: {
                     ...prev.users,
                     nodes: [
-                        ...(prev.users?.nodes || []),
-                        ...(fetchMoreResult.users?.nodes || []),
+                        ...prev.users.nodes,
+                        ...newNodes,
                     ],
-                    pageInfo: fetchMoreResult.users?.pageInfo,
+                    pageInfo: fetchMoreResult.users.pageInfo,
                 },
             };
         },
